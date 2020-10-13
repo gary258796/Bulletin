@@ -9,17 +9,22 @@
     </head>
     <body>
         <div id="app">
+            <label id="alertLabel"></label>
+
             <div>
                 <label id="accountLabel"></label>
+                <br>
                 <input type="text" name="account" placeholder="Account" v-model="accountText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
             </div>
             <div>
                 <label id="passwordLabel"></label>
+                <br>
                 <input type="password" name="password" placeholder="Password" v-model="passwordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" >
             </div>
 
+            <br>
             <button @click="login()" style="width: 150px; margin: 5px; font-size : 16px;">登入</button>
         </div>
     </body>

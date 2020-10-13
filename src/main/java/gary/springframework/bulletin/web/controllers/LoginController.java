@@ -31,22 +31,15 @@ public class LoginController {
     @PostMapping(value = "/login")
     public @ResponseBody String formLogin(@RequestBody UserReq userReq) {
 
+        String retString = "" ;
+
         // go and check DB if this user is exist and with correct password
         User user = userService.findByAccount( userReq.getAccount() );
 
-        if( user != null ) {
-            System.out.println("userReq: " + userReq.getPassword());
-            System.out.println("user: " + user.getPassword());
-            if( user.getPassword().equals(userReq.getPassword()) ){
-                System.out.println("Equal!");
-            }
-        }
-        else {
-            System.out.println("No User found");
-        }
+        if( user != null && user.getPassword().equals(userReq.getPassword()) ) retString = "successful";
+        else retString = "failed";
 
-        return "Test" ;
+        return retString ;
     }
 
-    // Methods
 }

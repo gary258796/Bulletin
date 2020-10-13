@@ -12,17 +12,12 @@ var app = new Vue({
 
             var self = this;
 
-            var accountTxt = '';
-            var passwordTxt = '';
+            $('#alertLabel').empty();
+            $('#accountLabel').empty();
+            $('#passwordLabel').empty();
 
-            // Validate Account & Password
-            if( self.accountText.length == 0 || self.accountText.length < 10 )
-                accountTxt = 'Account can\'t be empty and at least 10 characters.' ;
-            if( self.passwordText.length == 0 || self.passwordText.length < 10 )
-                passwordTxt = 'Password can\'t be empty and at least 10 characters.' ;
-
-            // call Login Api after validation is all correct
-            if( accountTxt == '' && passwordTxt == '') {
+            // call Login Api
+            if( self.accountText.length >= 10 && self.passwordText.length >= 10) {
                 $.ajax({
                     url: self.apiBaseUrl + "/login",
                     type: "POST",
@@ -33,17 +28,19 @@ var app = new Vue({
                         password: self.passwordText
                     }),
                     success: function(returnData){
-                        console.log("returnData : " + returnData);
-                    },
-                    error: function(xhr, ajaxOptions, thrownError){
-                        console.log(xhr.status);
-                        console.log(thrownError);
+                        if( returnData == 'successful') window.location.href = self.apiBaseUrl + "/Home/home" ;
+                        else
+                            $("#alertLabel").append('Login Failed! Check your account and password!');
                     }
                 });
             }
             else{
-                $("#accountLabel").innerHTML = accountTxt ;
-                $("#passwordLabel").innerHTML = passwordTxt ;
+                // Validate Account & Password
+                if( self.accountText.length == 0 || self.accountText.length < 10 )
+                    $("#accountLabel").append('Account can\'t be empty and at least 10 characters.');
+                if( self.passwordText.length == 0 || self.passwordText.length < 10 )
+                    $("#passwordLabel").append('Password can\'t be empty and at least 10 characters.');
+
                 return ;
             }
 
