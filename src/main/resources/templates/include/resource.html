@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="css">
+
+</th:block>
+
+<th:block th:fragment="js">
+
+<!--    <script-->
+<!--            type="text/javascript" th:src="@{/js/jquery/jquery-2.2.3.min.js}"></script>-->
+<!--    <script-->
+<!--            type="text/javascript" th:src="@{/js/bootstrap/bootstrap.min.js}"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+
+</th:block>
+
+<th:block th:fragment="config">
+
+    <script th:src="@{/model/config.js}"></script>
+
+    <script th:inline="javascript">
+        var baseVue = Config.init({
+            apiBaseUrl: [[${@environment.getProperty("api.url")}]]
+        });
+    </script>
+</th:block>
+</html>
