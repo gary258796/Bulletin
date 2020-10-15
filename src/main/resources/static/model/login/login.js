@@ -1,9 +1,11 @@
-var app = new Vue({
-    el: '#app',
-    data: {
-        apiBaseUrl: "http://localhost:8080",
-        accountText: "",
-        passwordText: ""
+'use strict';
+
+var App = baseVue.extend({
+    data: function(){
+        return {
+            accountText: "",
+            passwordText: ""
+        };
     },
     created: function() {
     },
@@ -44,6 +46,10 @@ var app = new Vue({
                 return ;
             }
 
+        },
+        register: function() {
+            // redirect to register page
+            window.location.href = this.apiBaseUrl + "/regist" ;
         }
     }
 });

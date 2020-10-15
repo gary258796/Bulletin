@@ -6,6 +6,8 @@ import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class LoginController {
 
@@ -29,17 +31,18 @@ public class LoginController {
      * @return
      */
     @PostMapping(value = "/login")
-    public @ResponseBody String formLogin(@RequestBody UserReq userReq) {
+    public @ResponseBody String formLogin(@RequestBody UserReq userReq, HttpSession session) {
 
-        String retString = "" ;
-
-        // go and check DB if this user is exist and with correct password
         User user = userService.findByAccount( userReq.getAccount() );
 
-        if( user != null && user.getPassword().equals(userReq.getPassword()) ) retString = "successful";
-        else retString = "failed";
+        // check DB if this user is exist and with correct password
+        if( user != null && user.getPassword().equals(userReq.getPassword()) ){
+            session.setAttribute("User", user );
+            return "successful";
+        }
+        else
+            return "failed";
 
-        return retString ;
     }
 
 }
