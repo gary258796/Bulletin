@@ -28,12 +28,16 @@ var App = baseVue.extend({
                     data: JSON.stringify({
                         account: self.accountText,
                         password: self.passwordText
-                    }),
-                    success: function(returnData){
-                        if( returnData == 'successful') window.location.href = self.apiBaseUrl + "/Home/home" ;
-                        else
-                            $("#alertLabel").append('Login Failed! Check your account and password!');
-                    }
+                    })
+                }).done(function(resp) {
+                    if( resp == 'successful')
+                        window.location.href = self.apiBaseUrl + "/Home/home" ;
+                    else if( resp == 'fail')
+                        $("#alertLabel").append('Login Failed! Check your account and password!');
+                }).fail(function() {
+                    alert('登入失敗,請洽系統管理員');
+                }).always(function() {
+                    //
                 });
             }
             else{

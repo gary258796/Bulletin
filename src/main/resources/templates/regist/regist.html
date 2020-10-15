@@ -1,10 +1,51 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout/default">
 
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Register Page</title>
+    </head>
+
+    <th:block layout:fragment="body">
+        <div>
+            <label id="alertLabel"></label>
+
+            <div>
+                <label id="emailLabel"></label>
+                <br>
+                <label>信箱</label>
+                <input type="text" name="email" placeholder="Email" v-model="registerInfo.emailText" class="form-control">
+            </div>
+            <div>
+                <label id="accountLabel"></label>
+                <br>
+                <label>帳號(一定要十位數)</label>
+                <input type="text" name="account" placeholder="Account" v-model="registerInfo.accountText"
+                       maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
+            </div>
+            <div>
+                <label id="passwordLabel"></label>
+                <br>
+                <label>密碼(一定要十位數)</label>
+                <input type="password" name="password" placeholder="Password" v-model="registerInfo.passwordText"
+                       maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
+            </div>
+
+            <br>
+            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">註冊</button>
+        </div>
+    </th:block>
+
+
+    <th:block layout:fragment="js">
+        <script
+                th:src="@{/model/regist/regist.js}"></script>
+        <script
+                th:inline="javascript">
+            var app = new App();
+        </script>
+    </th:block>
 </html>
+

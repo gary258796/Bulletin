@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.entities.User;
-import gary.springframework.bulletin.models.UserReq;
+import gary.springframework.bulletin.models.request.UserReq;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +41,7 @@ public class LoginController {
             return "successful";
         }
         else
-            return "failed";
+            return "fail";
 
     }
 

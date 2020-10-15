@@ -8,4 +8,6 @@ public interface UserService extends CrudService<User, Long>{
 
     User findByEmail(String email);
 
+    User findByAccountAndEmail(String account, String email);
+
 }

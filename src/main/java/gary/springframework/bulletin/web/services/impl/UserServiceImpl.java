@@ -30,6 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByAccountAndEmail(String account, String email) {
+        return userRepository.findByAccountAndEmail(account, email);
+    }
+
+    /** -----------------------------------------------------------------  */
+
+    @Override
     public Set<User> findAll() {
         Set<User> users = new HashSet<>();
         userRepository.findAll().forEach(users::add);
