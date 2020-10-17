@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.entities.User;
-import gary.springframework.bulletin.models.request.UserReq;
+import gary.springframework.bulletin.models.dto.UserRegistDto;
 import gary.springframework.bulletin.models.response.RegistResponse;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ public class RegistController {
      * @return
      */
     @GetMapping(value = "/regist")
-    public String register() {
+    public String showRegisterPage() {
         return "regist/regist";
     }
 
@@ -34,12 +34,12 @@ public class RegistController {
      */
     @PostMapping(value = "/regist")
     public @ResponseBody
-    RegistResponse doRegisteration(@RequestBody UserReq userReq) {
+    RegistResponse doRegisteration(@RequestBody UserRegistDto userRegistDto) {
 
         RegistResponse registResponse = new RegistResponse();
 
         // check if already exists in DB
-        User theUser = userService.findByAccountAndEmail(userReq.getAccount(), userReq.getEmail()) ;
+        User theUser = userService.findByAccountAndEmail(userRegistDto.getAccount(), userRegistDto.getEmail()) ;
 
         // TRUE : refuse register action
         if( theUser != null ){
@@ -47,7 +47,7 @@ public class RegistController {
             registResponse.setReturnMsg("Email and account are both used already! Please type again.");
         } else { // FALSE : Save data to DB
 
-            User user = new User( userReq.getAccount() ,userReq.getEmail() ,userReq.getPassword() );
+            User user = new User( userRegistDto.getAccount() , userRegistDto.getEmail() , userRegistDto.getPassword() );
 
             userService.save(user);
 

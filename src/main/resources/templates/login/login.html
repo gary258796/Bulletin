@@ -1,14 +1,18 @@
 <!DOCTYPE html>
+
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default">
 
     <head>
         <meta charset="UTF-8">
-        <title>Login Page</title>
+        <title th:text="#{message.login.title}"></title>
     </head>
 
     <th:block layout:fragment="body">
+
+        <h1 th:text="#{message.welcome.hello}"></h1>
+
         <div>
             <label id="alertLabel"></label>
 
@@ -26,8 +30,12 @@
             </div>
 
             <br>
-            <button @click="login()" style="width: 150px; margin: 5px; font-size : 16px;">登入</button>
-            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">我要註冊</button>
+            <button @click="login()" style="width: 150px; margin: 5px; font-size : 16px;">
+                <span th:text="#{message.login}" />
+            </button>
+            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">
+                <span th:text="#{message.want.regist}" />
+            </button>
         </div>
     </th:block>
 

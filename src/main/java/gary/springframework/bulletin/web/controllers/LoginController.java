@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.entities.User;
-import gary.springframework.bulletin.models.request.UserReq;
+import gary.springframework.bulletin.models.dto.UserLoginDto;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ public class LoginController {
      * @return
      */
     @GetMapping(value = "/login")
-    public String login() {
+    public String showLoginPage() {
         return "login/login" ;
     }
 
@@ -31,12 +31,12 @@ public class LoginController {
      * @return
      */
     @PostMapping(value = "/login")
-    public @ResponseBody String formLogin(@RequestBody UserReq userReq, HttpSession session) {
+    public @ResponseBody String formLogin(@RequestBody UserLoginDto userLoginDto, HttpSession session) {
 
-        User user = userService.findByAccount( userReq.getAccount() );
+        User user = userService.findByAccount( userLoginDto.getAccount() );
 
         // check DB if this user is exist and with correct password
-        if( user != null && user.getPassword().equals(userReq.getPassword()) ){
+        if( user != null && user.getPassword().equals(userLoginDto.getPassword()) ){
             session.setAttribute("User", user );
             return "successful";
         }

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <script type="text/x-template" id="my-component">
+        <div class="component">A custom component of Vue!</div>
+    </script>
+
+    <th:block th:fragment="header">
+
+        <vue-header ref="header" inline-template>
+            <header>
+                <span th:text="#{lang.change}"></span>:
+                <select id="locales" v-model="locale">
+                    <option value=""   th:text="#{lang.please.choose}"></option>
+                    <option value="en_US" th:text="#{lang.eng}"></option>
+                    <option value="zh_TW" th:text="#{lang.ch}"></option>
+                </select>
+            </header>
+        </vue-header>
+
+        <script
+                th:src="@{/model/locale/changelanguage.js}"></script>
+
+    </th:block>
+
+</html>

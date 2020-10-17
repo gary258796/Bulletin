@@ -42,9 +42,9 @@ var App = baseVue.extend({
             }
             else{
                 // Validate Account & Password
-                if( self.accountText.length == 0 || self.accountText.length < 10 )
+                if( self.accountText.length < 10 )
                     $("#accountLabel").append('Account can\'t be empty and at least 10 characters.');
-                if( self.passwordText.length == 0 || self.passwordText.length < 10 )
+                if( self.passwordText.length < 10 )
                     $("#passwordLabel").append('Password can\'t be empty and at least 10 characters.');
 
                 return ;
