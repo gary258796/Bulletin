@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout/default">
@@ -17,16 +16,16 @@
             <label id="alertLabel"></label>
 
             <div>
-                <label id="accountLabel"></label>
-                <br>
+                <label th:text="#{message.account}">Account</label>
                 <input type="text" name="account" placeholder="Account" v-model="accountText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
+                <label id="accountLabel"></label>
             </div>
             <div>
-                <label id="passwordLabel"></label>
-                <br>
+                <label th:text="#{message.password}">Password</label>
                 <input type="password" name="password" placeholder="Password" v-model="passwordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" >
+                <label id="passwordLabel"></label>
             </div>
 
             <br>

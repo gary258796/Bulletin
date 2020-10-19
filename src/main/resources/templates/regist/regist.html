@@ -5,36 +5,42 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Register Page</title>
+        <title th:text="#{message.register.title}">Register Page</title>
     </head>
 
     <th:block layout:fragment="body">
+
         <div>
             <label id="alertLabel"></label>
 
             <div>
-                <label id="emailLabel"></label>
-                <br>
-                <label>信箱</label>
-                <input type="text" name="email" placeholder="Email" v-model="registerInfo.emailText" class="form-control">
+                <label th:text="#{message.email}">Email</label>
+                <input type="text" name="email" v-model="registerInfo.emailText" class="form-control">
+                <span id="emailError" style="display:none"></span>
             </div>
             <div>
-                <label id="accountLabel"></label>
-                <br>
-                <label>帳號(一定要十位數)</label>
-                <input type="text" name="account" placeholder="Account" v-model="registerInfo.accountText"
+                <label th:text="#{message.account}">Account</label>
+                <input type="text" name="account" v-model="registerInfo.accountText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
+                <span id="accountError" style="display:none"></span>
             </div>
             <div>
-                <label id="passwordLabel"></label>
-                <br>
-                <label>密碼(一定要十位數)</label>
-                <input type="password" name="password" placeholder="Password" v-model="registerInfo.passwordText"
+                <label th:text="#{message.password}">Password</label>
+                <input type="password" name="password" v-model="registerInfo.passwordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
+                <span id="passwordError" style="display:none"></span>
+            </div>
+            <div>
+                <label th:text="#{message.matchingPassword}">Matching Password</label>
+                <input type="password" name="matchingPassword" v-model="registerInfo.matchingPasswordText"
+                       maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
+                <span id="globalError" style="display:none"></span>
             </div>
 
             <br>
-            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">註冊</button>
+            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">
+                <span th:text="#{message.regist}" />
+            </button>
         </div>
     </th:block>
 

@@ -1,9 +1,12 @@
 package gary.springframework.bulletin.models.dto;
 
+import gary.springframework.bulletin.validations.PasswordMatches;
+import gary.springframework.bulletin.validations.ValidEmail;
 import lombok.Data;
 import lombok.ToString;
-import javax.validation.constraints.NotEmpty;
+
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
@@ -11,19 +14,28 @@ import java.io.Serializable;
  */
 @Data
 @ToString
+@PasswordMatches
 public class UserRegistDto implements Serializable {
 
     @NotNull
-    @NotEmpty
+    @Size(min = 5, message = "{Size.must.greater}")
     private String account;
 
-    @NotNull
-    @NotEmpty
-    private String email;
 
     @NotNull
-    @NotEmpty
+    @ValidEmail
+    @Size(min = 3, message = "{Size.must.greater}")
+    private String email;
+
+
+    @NotNull
+    @Size(min = 5, message = "{Size.must.greater}")
     private String password;
+
+
+    @NotNull
+    @Size(min = 5, message = "{Size.must.greater}")
+    private String matchingPassword;
 
 }
 

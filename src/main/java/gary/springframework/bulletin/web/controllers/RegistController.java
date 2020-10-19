@@ -1,21 +1,26 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.entities.User;
+import gary.springframework.bulletin.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.models.dto.UserRegistDto;
 import gary.springframework.bulletin.models.response.RegistResponse;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class RegistController {
 
     private final UserService userService;
 
-    public RegistController(UserService userService) {
+    public RegistController(UserService userService) { super();
         this.userService = userService;
     }
 
@@ -30,31 +35,26 @@ public class RegistController {
 
     /**
      * 註冊流程
+     * 通不過Java校驗api的欄位會透過HandleValidationExceptions class裡面去抓取所有controller丟出但沒去處理之exceptions
      * @return
      */
+    @ResponseBody
     @PostMapping(value = "/regist")
-    public @ResponseBody
-    RegistResponse doRegisteration(@RequestBody UserRegistDto userRegistDto) {
+    public RegistResponse doRegisteration(@Valid @RequestBody final UserRegistDto userRegistDto,
+                                   final HttpServletRequest request, final Errors errors) {
 
         RegistResponse registResponse = new RegistResponse();
 
-        // check if already exists in DB
-        User theUser = userService.findByAccountAndEmail(userRegistDto.getAccount(), userRegistDto.getEmail()) ;
-
-        // TRUE : refuse register action
-        if( theUser != null ){
+        try {
+            final User registered= userService.registerNewUserAccount(userRegistDto);
+            if( registered != null )
+                registResponse.setReturnStatus("successful");
+        } catch ( UserAlreadyExistException userAlreadyExistException){
             registResponse.setReturnStatus("fail");
-            registResponse.setReturnMsg("Email and account are both used already! Please type again.");
-        } else { // FALSE : Save data to DB
-
-            User user = new User( userRegistDto.getAccount() , userRegistDto.getEmail() , userRegistDto.getPassword() );
-
-            userService.save(user);
-
-            registResponse.setReturnStatus("successful");
-
+            registResponse.setReturnMsg(userAlreadyExistException.getMessage());
         }
 
         return registResponse;
+
     }
 }
