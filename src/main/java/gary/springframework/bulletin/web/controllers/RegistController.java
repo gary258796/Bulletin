@@ -3,7 +3,7 @@ package gary.springframework.bulletin.web.controllers;
 import gary.springframework.bulletin.entities.User;
 import gary.springframework.bulletin.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.models.dto.UserRegistDto;
-import gary.springframework.bulletin.models.response.RegistResponse;
+import gary.springframework.bulletin.models.response.GenericResponse;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
@@ -40,21 +40,17 @@ public class RegistController {
      */
     @ResponseBody
     @PostMapping(value = "/regist")
-    public RegistResponse doRegisteration(@Valid @RequestBody final UserRegistDto userRegistDto,
-                                   final HttpServletRequest request, final Errors errors) {
+    public GenericResponse doRegisteration(@Valid @RequestBody final UserRegistDto userRegistDto,
+                                           final HttpServletRequest request, final Errors errors) {
 
-        RegistResponse registResponse = new RegistResponse();
+        GenericResponse genericResponse = new GenericResponse("successful");
 
         try {
             final User registered= userService.registerNewUserAccount(userRegistDto);
-            if( registered != null )
-                registResponse.setReturnStatus("successful");
         } catch ( UserAlreadyExistException userAlreadyExistException){
-            registResponse.setReturnStatus("fail");
-            registResponse.setReturnMsg(userAlreadyExistException.getMessage());
+            genericResponse = new GenericResponse("fail", userAlreadyExistException.getMessage() );
         }
 
-        return registResponse;
-
+        return genericResponse;
     }
 }

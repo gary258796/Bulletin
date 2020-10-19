@@ -18,11 +18,13 @@ var App = baseVue.extend({
          *  註冊流程
          */
         register: function() {
+            // 清空錯誤提示欄位
+            $(".alert").html("").hide();
 
             var self = this ;
             let registerData = self.registerInfo;
 
-            if( !isFieldsFormatOk(registerData) ){ // 在出錯欄位上顯示提示
+            if( !self.isFieldsFormatOk(registerData) ){ // 在出錯欄位上顯示提示
                 if( !isEmail(registerData.emailText) )
                     $("#emailError").show().append("Email format uncorrect!<br/>");
                 if( !correctAccount(registerData.accountText) )
@@ -44,27 +46,28 @@ var App = baseVue.extend({
                         matchingPassword: registerData.matchingPasswordText
                     })
                 }).then(function(resp) {
-                    if( resp.returnStatus == 'successful') {
+                    if( resp.message == 'successful') {
                         // alert : user registered!
                         alert("Regist success!");
 
                         // let user return to LOGIN Page
                         window.location.href = self.apiBaseUrl + "/login" ;
                     }
-                    else if( resp.returnStatus == 'fail' )
-                        alert(resp.returnMsg);
+                    else if( resp.message == 'fail' ) alert(resp.error);
                 }).fail(function(resp) {
-
-                    // TODO: resp 會缺少 responseJSON 不知道為什麼
-                    // var errors = $.parseJSON(resp.responseJSON.message);
-                    // $.each( errors, function( index,item ){
-                    //     if (item.field){
-                    //         $("#"+item.field+"Error").show().append(item.defaultMessage+"<br/>");
-                    //     }
-                    //     else {
-                    //         $("#globalError").show().append(item.defaultMessage+"<br/>");
-                    //     }
-                    // });
+                    if(resp.responseJSON.error == "UserAlreadyExist" ){
+                        $("#emailError").show().html(resp.responseJSON.message);
+                    }else {
+                        var errors = $.parseJSON(resp.responseJSON.message);
+                        $.each( errors, function( index,item ){
+                            if (item.field){
+                                $("#"+item.field+"Error").show().append(item.defaultMessage+"<br/>");
+                            }
+                            else {
+                                $("#globalError").show().append(item.defaultMessage+"<br/>");
+                            }
+                        });
+                    }
                 });
             }
         },

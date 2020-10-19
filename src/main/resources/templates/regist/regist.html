@@ -16,25 +16,25 @@
             <div>
                 <label th:text="#{message.email}">Email</label>
                 <input type="text" name="email" v-model="registerInfo.emailText" class="form-control">
-                <span id="emailError" style="display:none"></span>
+                <span id="emailError" class="alert" style="display:none"></span>
             </div>
             <div>
                 <label th:text="#{message.account}">Account</label>
                 <input type="text" name="account" v-model="registerInfo.accountText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="accountError" style="display:none"></span>
+                <span id="accountError" class="alert" style="display:none"></span>
             </div>
             <div>
                 <label th:text="#{message.password}">Password</label>
                 <input type="password" name="password" v-model="registerInfo.passwordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="passwordError" style="display:none"></span>
+                <span id="passwordError" class="alert" style="display:none"></span>
             </div>
             <div>
                 <label th:text="#{message.matchingPassword}">Matching Password</label>
                 <input type="password" name="matchingPassword" v-model="registerInfo.matchingPasswordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="globalError" style="display:none"></span>
+                <span id="globalError" class="alert" style="display:none"></span>
             </div>
 
             <br>
