@@ -3,11 +3,13 @@ package gary.springframework.bulletin.web.services.impl;
 import gary.springframework.bulletin.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.entities.User;
 import gary.springframework.bulletin.models.dto.UserRegistDto;
+import gary.springframework.bulletin.web.repositories.RoleRepository;
 import gary.springframework.bulletin.web.repositories.UserRepository;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,16 +17,18 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository ;
+    private final RoleRepository roleRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     /** -----------------------------------------------------------------  */
 
     @Override
-    public User findByAccount(String account) {
-        return userRepository.findByAccount(account);
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 
     @Override
@@ -33,8 +37,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByAccountAndEmail(String account, String email) {
-        return userRepository.findByAccountAndEmail(account, email);
+    public User findByUserNameAndEmail(String userName, String email) {
+        return userRepository.findByUserNameAndEmail(userName, email);
     }
 
     /**
@@ -47,15 +51,19 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User registerNewUserAccount(UserRegistDto userRegistDto) throws UserAlreadyExistException {
 
-        if( emailExist(userRegistDto.getEmail()) && accountExist(userRegistDto.getAccount()) )
-            throw new UserAlreadyExistException("This account and Email are used already");
-        else if( emailExist(userRegistDto.getEmail()) && !accountExist(userRegistDto.getAccount()) )
+        if( emailExist(userRegistDto.getEmail()) && userNameExist(userRegistDto.getUserName()) )
+            throw new UserAlreadyExistException("This Username and Email are used already");
+        else if( emailExist(userRegistDto.getEmail()) && !userNameExist(userRegistDto.getUserName()) )
             throw new UserAlreadyExistException("This Email is used already");
-        else if( !emailExist(userRegistDto.getEmail()) && accountExist(userRegistDto.getAccount()) )
-            throw new UserAlreadyExistException("This account is used already");
+        else if( !emailExist(userRegistDto.getEmail()) && userNameExist(userRegistDto.getUserName()) )
+            throw new UserAlreadyExistException("This Username is used already");
 
         // no problem , register user
-        User user = new User(userRegistDto.getAccount(), userRegistDto.getEmail(), userRegistDto.getPassword());
+        User user = new User();
+        user.setEmail( userRegistDto.getEmail() );
+        user.setUserName( userRegistDto.getUserName() );
+        user.setPassword( userRegistDto.getPassword() );
+        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
         return save(user);
     }
@@ -66,8 +74,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean accountExist(String account) {
-        return findByAccount(account) != null;
+    public Boolean userNameExist(String userName) {
+        return findByUserName(userName) != null;
     }
 
     /** -----------------------------------------------------------------  */

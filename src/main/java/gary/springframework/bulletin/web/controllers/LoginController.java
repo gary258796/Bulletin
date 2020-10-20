@@ -33,7 +33,7 @@ public class LoginController {
     @PostMapping(value = "/login")
     public @ResponseBody String formLogin(@RequestBody UserLoginDto userLoginDto, HttpSession session) {
 
-        User user = userService.findByAccount( userLoginDto.getAccount() );
+        User user = userService.findByUserName(userLoginDto.getUserName());
 
         // check DB if this user is exist and with correct password
         if( user != null && user.getPassword().equals(userLoginDto.getPassword()) ){

@@ -4,7 +4,7 @@ var App = baseVue.extend({
     data: function(){
         return {
             registerInfo: {
-                accountText: "",
+                userNameText: "",
                 passwordText: "",
                 emailText: "",
                 matchingPasswordText: ""
@@ -27,8 +27,8 @@ var App = baseVue.extend({
             if( !self.isFieldsFormatOk(registerData) ){ // 在出錯欄位上顯示提示
                 if( !isEmail(registerData.emailText) )
                     $("#emailError").show().append("Email format uncorrect!<br/>");
-                if( !correctAccount(registerData.accountText) )
-                    $("#accountError").show().append("Account format uncorrect!<br/>");
+                if( !correctUserName(registerData.userNameText) )
+                    $("#userNameError").show().append("UserName format uncorrect!<br/>");
                 if( !correctPassword(registerData.passwordText) )
                     $("#passwordError").show().append("Password format uncorrect!<br/>");
 
@@ -40,7 +40,7 @@ var App = baseVue.extend({
                     dataType: "json",
                     contentType: "application/json",
                     data: JSON.stringify({
-                        account: registerData.accountText,
+                        userName: registerData.userNameText,
                         email: registerData.emailText,
                         password: registerData.passwordText,
                         matchingPassword: registerData.matchingPasswordText
@@ -78,7 +78,7 @@ var App = baseVue.extend({
         isFieldsFormatOk(registerData) {
             return true ;
 
-            if( isEmail(registerData.emailText) && correctAccount(registerData.accountText)
+            if( isEmail(registerData.emailText) && correctUserName(registerData.userNameText)
                 && correctPassword(registerData.passwordText) )
                 return true ;
 

@@ -16,10 +16,10 @@
             <label id="alertLabel"></label>
 
             <div>
-                <label th:text="#{message.account}">Account</label>
-                <input type="text" name="account" placeholder="Account" v-model="accountText"
+                <label th:text="#{message.username}">UserName</label>
+                <input type="text" name="username" placeholder="UserName" v-model="usernameText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <label id="accountLabel"></label>
+                <label id="usernameLabel"></label>
             </div>
             <div>
                 <label th:text="#{message.password}">Password</label>

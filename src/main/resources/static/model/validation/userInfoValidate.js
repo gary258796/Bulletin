@@ -18,8 +18,8 @@ function isEmail(email) {
  * @param account
  * @return {boolean}
  */
-function correctAccount(account) {
-    if(account.length >= 10 )
+function correctUserName(userName) {
+    if(userName.length >= 10 )
         return true;
 
     return false ;

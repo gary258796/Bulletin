@@ -1,6 +1,5 @@
 package gary.springframework.bulletin.web.controllers;
 
-import gary.springframework.bulletin.entities.User;
 import gary.springframework.bulletin.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.models.dto.UserRegistDto;
 import gary.springframework.bulletin.models.response.GenericResponse;
@@ -46,7 +45,7 @@ public class RegistController {
         GenericResponse genericResponse = new GenericResponse("successful");
 
         try {
-            final User registered= userService.registerNewUserAccount(userRegistDto);
+            userService.registerNewUserAccount(userRegistDto);
         } catch ( UserAlreadyExistException userAlreadyExistException){
             genericResponse = new GenericResponse("fail", userAlreadyExistException.getMessage() );
         }

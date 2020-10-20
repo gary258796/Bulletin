@@ -1,12 +1,23 @@
 package gary.springframework.bulletin.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import lombok.*;
 
-//@Entity
-//@Table(name = "roles")
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.Collection;
+
+@Setter
+@Getter
+@EqualsAndHashCode
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
 public class Role extends BaseEntity {
 
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Collection<User> users;
 
 }

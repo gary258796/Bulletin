@@ -6,12 +6,11 @@ import gary.springframework.bulletin.models.dto.UserRegistDto;
 
 public interface UserService extends CrudService<User, Long>{
 
-    User findByAccount(String account);
+    User findByUserName(String userName);
 
     User findByEmail(String email);
 
-    User findByAccountAndEmail(String account, String email);
-
+    User findByUserNameAndEmail(String userName, String email);
 
 
     // Custom
@@ -19,5 +18,5 @@ public interface UserService extends CrudService<User, Long>{
 
     Boolean emailExist(String email);
 
-    Boolean accountExist(String account);
+    Boolean userNameExist(String userName);
 }

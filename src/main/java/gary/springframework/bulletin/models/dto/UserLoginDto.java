@@ -15,7 +15,7 @@ public class UserLoginDto implements Serializable {
 
     @NotNull
     @NotEmpty
-    private String account;
+    private String userName;
 
     @NotNull
     @NotEmpty

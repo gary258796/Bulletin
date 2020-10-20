@@ -3,7 +3,7 @@
 var App = baseVue.extend({
     data: function(){
         return {
-            accountText: "",
+            usernameText: "",
             passwordText: ""
         };
     },
@@ -15,25 +15,25 @@ var App = baseVue.extend({
             var self = this;
 
             $('#alertLabel').empty();
-            $('#accountLabel').empty();
+            $('#usernameLabel').empty();
             $('#passwordLabel').empty();
 
             // call Login Api
-            if( self.accountText.length >= 10 && self.passwordText.length >= 10) {
+            if( self.usernameText.length >= 10 && self.passwordText.length >= 10) {
                 $.ajax({
                     url: self.apiBaseUrl + "/login",
                     type: "POST",
                     dataType: "text",
                     contentType: "application/json;charset=utf-8",
                     data: JSON.stringify({
-                        account: self.accountText,
+                        userName: self.usernameText,
                         password: self.passwordText
                     })
                 }).done(function(resp) {
                     if( resp == 'successful')
-                        window.location.href = self.apiBaseUrl + "/Home/home" ;
+                        window.location.href = self.apiBaseUrl + "/home" ;
                     else if( resp == 'fail')
-                        $("#alertLabel").append('Login Failed! Check your account and password!');
+                        $("#alertLabel").append('Login Failed! Check your userName and password!');
                 }).fail(function() {
                     alert('登入失敗,請洽系統管理員');
                 }).always(function() {
@@ -41,9 +41,9 @@ var App = baseVue.extend({
                 });
             }
             else{
-                // Validate Account & Password
-                if( self.accountText.length < 10 )
-                    $("#accountLabel").append('Account can\'t be empty and at least 10 characters.');
+                // Validate UserName & Password
+                if( self.usernameText.length < 10 )
+                    $("#usernameLabel").append('UserName can\'t be empty and at least 10 characters.');
                 if( self.passwordText.length < 10 )
                     $("#passwordLabel").append('Password can\'t be empty and at least 10 characters.');
 

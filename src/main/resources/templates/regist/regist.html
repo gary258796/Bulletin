@@ -19,10 +19,10 @@
                 <span id="emailError" class="alert" style="display:none"></span>
             </div>
             <div>
-                <label th:text="#{message.account}">Account</label>
-                <input type="text" name="account" v-model="registerInfo.accountText"
+                <label th:text="#{message.username}">UserName</label>
+                <input type="text" name="username" v-model="registerInfo.userNameText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="accountError" class="alert" style="display:none"></span>
+                <span id="userNameError" class="alert" style="display:none"></span>
             </div>
             <div>
                 <label th:text="#{message.password}">Password</label>

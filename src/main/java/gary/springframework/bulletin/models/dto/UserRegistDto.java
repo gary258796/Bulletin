@@ -19,7 +19,7 @@ public class UserRegistDto implements Serializable {
 
     @NotNull
     @Size(min = 5, message = "{Size.must.greater}")
-    private String account;
+    private String userName;
 
 
     @NotNull
