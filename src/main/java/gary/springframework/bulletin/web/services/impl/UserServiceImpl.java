@@ -1,10 +1,12 @@
 package gary.springframework.bulletin.web.services.impl;
 
-import gary.springframework.bulletin.exception.UserAlreadyExistException;
-import gary.springframework.bulletin.entities.User;
-import gary.springframework.bulletin.models.dto.UserRegistDto;
+import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
+import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 import gary.springframework.bulletin.web.repositories.RoleRepository;
 import gary.springframework.bulletin.web.repositories.UserRepository;
+import gary.springframework.bulletin.web.repositories.VerificationTokenRepository;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +20,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository ;
     private final RoleRepository roleRepository;
+    private final VerificationTokenRepository tokenRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository tokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     /** -----------------------------------------------------------------  */
@@ -76,6 +80,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean userNameExist(String userName) {
         return findByUserName(userName) != null;
+    }
+
+    @Override
+    public void createVerificationTokenForUser(final User user, final String token) {
+        final VerificationToken verificationToken = new VerificationToken(token, user);
+        tokenRepository.save(verificationToken);
     }
 
     /** -----------------------------------------------------------------  */

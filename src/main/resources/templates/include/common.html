@@ -9,11 +9,11 @@
 
         <vue-header ref="header" inline-template>
             <header>
-                <span th:text="#{lang.change}"></span>:
+                <span th:text="#{message.change}"></span>:
                 <select id="locales" v-model="locale">
-                    <option value=""   th:text="#{lang.please.choose}"></option>
-                    <option value="en_US" th:text="#{lang.eng}"></option>
-                    <option value="zh_TW" th:text="#{lang.ch}"></option>
+                    <option value=""      th:text="#{message.please.choose}"></option>
+                    <option value="en_US" th:text="#{message.eng}"></option>
+                    <option value="zh_TW" th:text="#{message.ch}"></option>
                 </select>
             </header>
         </vue-header>

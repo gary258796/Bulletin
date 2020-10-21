@@ -1,9 +1,9 @@
 package gary.springframework.bulletin.configs;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
@@ -17,9 +17,6 @@ import java.util.Locale;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    @Autowired
-    private MessageSource messageSource;
 
     /**
      * 設定 Interceptor(攔截器) 來幫我們換語言
@@ -47,13 +44,31 @@ public class WebConfig implements WebMvcConfigurer {
         return slr;
     }
 
+    @Bean
+    public MessageSource messageSource() {
+
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+
+        // 指定message.properties的basename
+        messageSource.setBasenames("classpath:/static/message/messages",
+                                   "classpath:/static/message/validation");
+        // 設定載入的資原始檔快取失效時間，-1的話為永不過期，預設為-1, 3600 為 3600 secs = 1 hour
+        messageSource.setCacheSeconds(3600);
+        // 設定編碼(不然中文會亂碼)
+        messageSource.setDefaultEncoding("UTF-8");
+
+        return messageSource;
+
+    }
+
+
     /**
      * 設定Java校驗API的message來源, Spring Boot預設已經幫我們把messageSource準備好,但我們可以自己覆蓋掉預設配置
      */
     @Override
     public Validator getValidator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
-        validator.setValidationMessageSource(messageSource);
+        validator.setValidationMessageSource(messageSource());
         return validator;
     }
 

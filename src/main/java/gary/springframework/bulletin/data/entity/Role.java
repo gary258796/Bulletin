@@ -1,4 +1,4 @@
-package gary.springframework.bulletin.entities;
+package gary.springframework.bulletin.data.entity;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
-package gary.springframework.bulletin.validations.validator;
+package gary.springframework.bulletin.normalstuff.validations.validator;
 
-import gary.springframework.bulletin.models.dto.UserRegistDto;
-import gary.springframework.bulletin.validations.PasswordMatches;
+import gary.springframework.bulletin.data.model.dto.UserRegistDto;
+import gary.springframework.bulletin.normalstuff.validations.PasswordMatches;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,10 +1,13 @@
 package gary.springframework.bulletin.web.controllers;
 
-import gary.springframework.bulletin.entities.User;
-import gary.springframework.bulletin.models.dto.UserLoginDto;
+import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.data.model.dto.UserLoginDto;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 

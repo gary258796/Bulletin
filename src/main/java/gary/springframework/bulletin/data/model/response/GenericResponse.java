@@ -1,4 +1,4 @@
-package gary.springframework.bulletin.models.response;
+package gary.springframework.bulletin.data.model.response;
 
 import lombok.Getter;
 import lombok.Setter;

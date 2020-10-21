@@ -1,6 +1,6 @@
 package gary.springframework.bulletin.web.repositories;
 
-import gary.springframework.bulletin.entities.Role;
+import gary.springframework.bulletin.data.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

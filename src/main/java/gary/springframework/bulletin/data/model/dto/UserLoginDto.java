@@ -1,4 +1,4 @@
-package gary.springframework.bulletin.models.dto;
+package gary.springframework.bulletin.data.model.dto;
 
 import lombok.Data;
 import lombok.ToString;

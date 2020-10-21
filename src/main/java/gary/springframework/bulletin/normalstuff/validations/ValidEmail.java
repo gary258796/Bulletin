@@ -1,6 +1,6 @@
-package gary.springframework.bulletin.validations;
+package gary.springframework.bulletin.normalstuff.validations;
 
-import gary.springframework.bulletin.validations.validator.ValidEmailValidator;
+import gary.springframework.bulletin.normalstuff.validations.validator.ValidEmailValidator;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface ValidEmail {
 
-    String message() default "Invalid Email";
+    String message() default "{Email.invalid}";
 
     Class<?>[] groups() default {};
 

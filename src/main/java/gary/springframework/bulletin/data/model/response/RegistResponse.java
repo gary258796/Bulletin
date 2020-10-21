@@ -1,4 +1,4 @@
-package gary.springframework.bulletin.models.response;
+package gary.springframework.bulletin.data.model.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

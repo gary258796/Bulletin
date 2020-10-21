@@ -1,8 +1,8 @@
 package gary.springframework.bulletin.web.services;
 
-import gary.springframework.bulletin.exception.UserAlreadyExistException;
-import gary.springframework.bulletin.entities.User;
-import gary.springframework.bulletin.models.dto.UserRegistDto;
+import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
+import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 
 public interface UserService extends CrudService<User, Long>{
 
@@ -19,4 +19,7 @@ public interface UserService extends CrudService<User, Long>{
     Boolean emailExist(String email);
 
     Boolean userNameExist(String userName);
+
+    void createVerificationTokenForUser(User user, String token);
+
 }

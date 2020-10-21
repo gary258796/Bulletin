@@ -1,4 +1,4 @@
-package gary.springframework.bulletin.exception;
+package gary.springframework.bulletin.normalstuff.exception;
 
 public class UserAlreadyExistException extends Exception{
 

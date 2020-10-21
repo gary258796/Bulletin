@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.configs;
 
-import gary.springframework.bulletin.validations.validator.PasswordMatchesValidator;
-import gary.springframework.bulletin.validations.validator.ValidEmailValidator;
+import gary.springframework.bulletin.normalstuff.validations.validator.PasswordMatchesValidator;
+import gary.springframework.bulletin.normalstuff.validations.validator.ValidEmailValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

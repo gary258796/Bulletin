@@ -1,6 +1,6 @@
-package gary.springframework.bulletin.exception.exceptionHandler;
+package gary.springframework.bulletin.normalstuff.exception.exceptionHandler;
 
-import gary.springframework.bulletin.models.response.GenericResponse;
+import gary.springframework.bulletin.data.model.response.GenericResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

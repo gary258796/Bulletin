@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.security;
 
-import gary.springframework.bulletin.entities.Role;
-import gary.springframework.bulletin.entities.User;
+import gary.springframework.bulletin.data.entity.Role;
+import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.web.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

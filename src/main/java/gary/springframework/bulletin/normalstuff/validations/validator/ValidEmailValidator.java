@@ -1,6 +1,6 @@
-package gary.springframework.bulletin.validations.validator;
+package gary.springframework.bulletin.normalstuff.validations.validator;
 
-import gary.springframework.bulletin.validations.ValidEmail;
+import gary.springframework.bulletin.normalstuff.validations.ValidEmail;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -1,9 +1,14 @@
 package gary.springframework.bulletin.web.controllers;
 
-import gary.springframework.bulletin.exception.UserAlreadyExistException;
-import gary.springframework.bulletin.models.dto.UserRegistDto;
-import gary.springframework.bulletin.models.response.GenericResponse;
+import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.data.model.dto.UserRegistDto;
+import gary.springframework.bulletin.data.model.response.GenericResponse;
+import gary.springframework.bulletin.normalstuff.event.OnRegistrationCompleteEvent;
+import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.web.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 public class RegistController {
 
     private final UserService userService;
+
+    @Autowired
+    private ApplicationEventPublisher applicationEventPublisher;
 
     public RegistController(UserService userService) { super();
         this.userService = userService;
@@ -45,11 +54,28 @@ public class RegistController {
         GenericResponse genericResponse = new GenericResponse("successful");
 
         try {
-            userService.registerNewUserAccount(userRegistDto);
+            final User registeredUser = userService.registerNewUserAccount(userRegistDto);
+            String appUrl = getAppUrl(request);
+            Locale locale = LocaleContextHolder.getLocale();
+
+            // 發佈事件
+            applicationEventPublisher.publishEvent( new OnRegistrationCompleteEvent(registeredUser, appUrl, locale) );
+
         } catch ( UserAlreadyExistException userAlreadyExistException){
             genericResponse = new GenericResponse("fail", userAlreadyExistException.getMessage() );
         }
 
         return genericResponse;
+    }
+
+    /* Methods Below */
+
+    /**
+     * 取得路徑
+     * @param request
+     * @return
+     */
+    private String getAppUrl( HttpServletRequest request ) {
+        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }

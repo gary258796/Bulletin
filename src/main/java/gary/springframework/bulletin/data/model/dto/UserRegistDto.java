@@ -1,7 +1,7 @@
-package gary.springframework.bulletin.models.dto;
+package gary.springframework.bulletin.data.model.dto;
 
-import gary.springframework.bulletin.validations.PasswordMatches;
-import gary.springframework.bulletin.validations.ValidEmail;
+import gary.springframework.bulletin.normalstuff.validations.PasswordMatches;
+import gary.springframework.bulletin.normalstuff.validations.ValidEmail;
 import lombok.Data;
 import lombok.ToString;
 
