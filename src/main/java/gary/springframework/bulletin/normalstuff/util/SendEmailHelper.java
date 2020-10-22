@@ -29,7 +29,7 @@ public class SendEmailHelper {
 
         final String toAddress = user.getEmail(); // 寄送目標信箱帳號
         final String subject = messageSource.getMessage("message.mail.subject", null, event.getLocale() ); // 主旨
-        final String confirmationUrl = event.getAppUrl() + "/registrationConfirm.html?token=" + token; // 確認連結
+        final String confirmationUrl = event.getAppUrl() + "/registrationConfirm?token=" + token; // 確認連結
         final String message = messageSource.getMessage("message.mail.regSuccLink", null, event.getLocale()); // 信件內容
 
         final SimpleMailMessage email = new SimpleMailMessage();

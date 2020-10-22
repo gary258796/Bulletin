@@ -19,7 +19,7 @@ var App = baseVue.extend({
             $('#passwordLabel').empty();
 
             // call Login Api
-            if( self.usernameText.length >= 10 && self.passwordText.length >= 10) {
+            if( self.usernameText.length >= 5 && self.passwordText.length >= 5) {
                 $.ajax({
                     url: self.apiBaseUrl + "/login",
                     type: "POST",
@@ -42,10 +42,10 @@ var App = baseVue.extend({
             }
             else{
                 // Validate UserName & Password
-                if( self.usernameText.length < 10 )
-                    $("#usernameLabel").append('UserName can\'t be empty and at least 10 characters.');
-                if( self.passwordText.length < 10 )
-                    $("#passwordLabel").append('Password can\'t be empty and at least 10 characters.');
+                if( self.usernameText.length < 5 )
+                    $("#usernameLabel").append('UserName can\'t be empty and at least 5 characters.');
+                if( self.passwordText.length < 5 )
+                    $("#passwordLabel").append('Password can\'t be empty and at least 5 characters.');
 
                 return ;
             }

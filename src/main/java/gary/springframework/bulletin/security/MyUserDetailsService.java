@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     /**
-     * functionName不可改變, 但我們可以在內容決定要以哪個欄位作為驗證
+     * functionName不可改變, 但我們可以在內容決定要以哪個欄位作為Spring Security的驗證
      * @param username
      * @return
      * @throws UsernameNotFoundException
@@ -41,7 +41,7 @@ public class MyUserDetailsService implements UserDetailsService {
         }
 
         return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword().toLowerCase(),
-                true, true, true, true,
+                user.getEnabled(), true, true, true,
                 getAuthorities(user.getRoles()) );
     }
 

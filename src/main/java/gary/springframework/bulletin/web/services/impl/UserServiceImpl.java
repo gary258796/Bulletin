@@ -88,6 +88,11 @@ public class UserServiceImpl implements UserService {
         tokenRepository.save(verificationToken);
     }
 
+    @Override
+    public VerificationToken getVerificationToken(String token) {
+        return tokenRepository.findByToken(token);
+    }
+
     /** -----------------------------------------------------------------  */
 
     @Override
