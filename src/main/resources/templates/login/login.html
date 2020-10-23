@@ -12,8 +12,17 @@
 
         <h1 th:text="#{message.welcome.hello}"></h1>
 
-        <div>
-            <label id="alertLabel"></label>
+        <div th:if="${param.error != null}"
+             th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+
+        <p v-if="errorMessages.length">
+            <b th:text="#{message.correct.error}">Please correct the following error(s):</b>
+            <ul>
+                <li v-for="error in errorMessages">{{ error }}</li>
+            </ul>
+        </p>
+
+        <form name='f' action="login" method='POST' @submit="checkForm">
 
             <div>
                 <label th:text="#{message.username}">UserName</label>
@@ -28,14 +37,13 @@
                 <label id="passwordLabel"></label>
             </div>
 
-            <br>
-            <button @click="login()" style="width: 150px; margin: 5px; font-size : 16px;">
-                <span th:text="#{message.login}" />
-            </button>
-            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">
-                <span th:text="#{message.want.regist}" />
-            </button>
-        </div>
+            <input class="btn btn-primary" name="submit" type="submit" th:value="#{message.login}" />
+        </form>
+
+        <button @click="register()" class="btn btn-primary">
+            <span th:text="#{message.want.regist}" />
+        </button>
+
     </th:block>
 
 

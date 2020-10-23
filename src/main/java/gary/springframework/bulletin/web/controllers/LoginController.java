@@ -33,7 +33,7 @@ public class LoginController {
      * Post 登入動作
      * @return
      */
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/abc")
     public @ResponseBody String formLogin(@RequestBody UserLoginDto userLoginDto, HttpSession session) {
 
         User user = userService.findByUserName(userLoginDto.getUserName());

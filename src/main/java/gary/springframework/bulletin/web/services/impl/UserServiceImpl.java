@@ -8,6 +8,8 @@ import gary.springframework.bulletin.web.repositories.RoleRepository;
 import gary.springframework.bulletin.web.repositories.UserRepository;
 import gary.springframework.bulletin.web.repositories.VerificationTokenRepository;
 import gary.springframework.bulletin.web.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,6 +19,9 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository ;
     private final RoleRepository roleRepository;
@@ -66,7 +71,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setEmail( userRegistDto.getEmail() );
         user.setUserName( userRegistDto.getUserName() );
-        user.setPassword( userRegistDto.getPassword() );
+        user.setPassword( passwordEncoder.encode(userRegistDto.getPassword()) );
         user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 
         return save(user);
@@ -109,6 +114,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User object) {
+
+
+
         return userRepository.save(object);
     }
 

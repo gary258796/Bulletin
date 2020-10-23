@@ -21,6 +21,7 @@ public class User extends BaseEntity {
 
     private String email;
 
+    @Column(length = 60) // 因為是存放編碼過的 因此長度不能太小
     private String password;
 
     private Boolean enabled;
