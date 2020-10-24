@@ -12,9 +12,11 @@
 
         <h1 th:text="#{message.welcome.hello}"></h1>
 
+        <!--Show Login Error Message from server-->
         <div th:if="${param.error != null}"
              th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
 
+        <!--Show Error message of fields-->
         <p v-if="errorMessages.length">
             <b th:text="#{message.correct.error}">Please correct the following error(s):</b>
             <ul>
@@ -22,6 +24,8 @@
             </ul>
         </p>
 
+        <!--Login Form-->
+        <!--  th:action="/transfer" , by using this,  thymeleaf will handle csrf token for us automatically -->
         <form name='f' action="login" method='POST' @submit="checkForm">
 
             <div>

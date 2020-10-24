@@ -63,24 +63,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests()
+                // authorizeRequests越特定的條件要放在越前面
+                // TODO:model為靜態資源相關,所以開放,之後可改成除了regist login相關的 其他需要有權限
+                .antMatchers("/admin/**").hasRole("ADMIN") // 訪問這個url的需要有ADMIN的角色
+                .antMatchers("/login*", "/regist*", "/model/**", "/favicon*", "/h2-console/**","/invalidToken").permitAll()
+                .anyRequest().authenticated();
+
 
         http.formLogin()
             .loginPage("/login")       // 指定客製的登入PAGE URL
             .loginProcessingUrl("/login")   // 登入過程獲取登入訊息的Class, 利用post這個url去觸發Spring security幫我們驗證登入者
-            .defaultSuccessUrl("/home")     // 登入成功之後導到此頁面
-//            .failureUrl("/login?1error=true") // 登入失敗, 導到此頁面
-//            .successHandler(authenticationSuccessHandler) // add back if needed in the future
-            .failureHandler(authenticationFailureHandler)   // 登入失敗處理器, 在裡面設定失敗要導到哪個url( Not Know Why .failureUrl not working )
+            .successHandler(authenticationSuccessHandler) // will redirect to home page here
+//            .defaultSuccessUrl("/home")     // 登入成功之後導到此頁面  Don't know why authenticationSuccessHandler not working correctly if added
+//            .failureUrl("/login?error=true") // 登入失敗, 導到此頁面  Don't know why authenticationFailureHandler not working correctly if added
+            .failureHandler(authenticationFailureHandler)   // 登入失敗處理器, 在裡面設定失敗要導到哪個url
             .permitAll()
             .and()
             .logout().permitAll();
 
-        http.authorizeRequests()
-            // authorizeRequests越特定的條件要放在越前面
-            // TODO:model為靜態資源相關,所以開放,之後可改成除了regist login相關的 其他需要有權限
-            .antMatchers("/admin/**").hasRole("ADMIN") // 訪問這個url的需要有ADMIN的角色
-            .antMatchers("/login*", "/regist*", "/model/**", "/favicon*", "/h2-console/**","/invalidToken").permitAll()
-            .anyRequest().authenticated();
+        // .access 更強大更方便 之後可加入
+        // Reference :  https://docs.spring.io/spring-security/site/docs/current/reference/html5/#el-access
 
         http.csrf().disable();                   // 不關閉就得把CSRF token包含進POST
         http.headers().frameOptions().disable(); // 讓我們可以正常看到h2的console

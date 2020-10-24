@@ -10,9 +10,7 @@ import java.util.Collection;
  */
 @Getter
 @Setter
-@AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 @Entity
 @Table(name = "users")
 public class User extends BaseEntity {

@@ -11,7 +11,6 @@ import java.util.Collection;
 @Setter
 @Getter
 @EqualsAndHashCode
-@ToString
 @NoArgsConstructor
 @Entity
 public class Role extends BaseEntity {

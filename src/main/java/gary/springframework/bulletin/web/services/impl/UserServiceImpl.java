@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -57,7 +58,6 @@ public class UserServiceImpl implements UserService {
      * @throws UserAlreadyExistException
      */
     @Override
-    @Transactional
     public User registerNewUserAccount(UserRegistDto userRegistDto) throws UserAlreadyExistException {
 
         if( emailExist(userRegistDto.getEmail()) && userNameExist(userRegistDto.getUserName()) )
