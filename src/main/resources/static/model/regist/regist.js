@@ -35,7 +35,7 @@ var App = baseVue.extend({
                 return;
             }else {
                 $.ajax({
-                    url: self.apiBaseUrl + "/regist",
+                    url: self.apiBaseUrl + "/regist/regist",
                     type: "post",
                     dataType: "json",
                     contentType: "application/json",

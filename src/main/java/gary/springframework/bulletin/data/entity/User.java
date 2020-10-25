@@ -19,7 +19,7 @@ public class User extends BaseEntity {
 
     private String email;
 
-    @Column(length = 60) // 因為是存放編碼過的 因此長度不能太小
+    @Column(length = 60) // 因為是存放Bcrypt編碼過的, 產生的字串大小就是60
     private String password;
 
     private Boolean enabled;

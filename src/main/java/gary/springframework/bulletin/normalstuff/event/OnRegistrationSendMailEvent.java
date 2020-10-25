@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationEvent;
 import java.util.Locale;
 
 @Getter
-public class OnRegistrationCompleteEvent extends ApplicationEvent {
+public class OnRegistrationSendMailEvent extends ApplicationEvent {
 
     private String appUrl;
 
@@ -15,7 +15,7 @@ public class OnRegistrationCompleteEvent extends ApplicationEvent {
 
     private User user;
 
-    public OnRegistrationCompleteEvent(User user, String appUrl, Locale locale) {
+    public OnRegistrationSendMailEvent(User user, String appUrl, Locale locale) {
         super(user);
         this.appUrl = appUrl;
         this.locale = locale;

@@ -1,26 +1,21 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.data.entity.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class HomeController {
 
     /**
      * 登入後 go home page
-     * @param request
+     * @param user, @AuthenticationPrincipal 會自動由Spring回傳認證過的Authentication.getPrinciple()
+     *              所以型別要對,不然會直接回傳 Null
      * @return
      */
     @GetMapping(value = "/home")
-    public String showHomePage(HttpServletRequest request) {
-
-        HttpSession session = request.getSession();
-
-        User user = (User) session.getAttribute("user");
+    public String showHomePage(@AuthenticationPrincipal User user) {
 
         return "home/home" ;
     }

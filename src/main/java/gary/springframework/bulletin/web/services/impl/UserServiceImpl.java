@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -96,6 +97,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public VerificationToken getVerificationToken(String token) {
         return tokenRepository.findByToken(token);
+    }
+
+    /**
+     * 產生新的驗證Token並更新Verification Table
+     * @param oldToken
+     * @return
+     */
+    @Override
+    public VerificationToken generateNewVerificationToken(String oldToken) {
+
+        VerificationToken existingToken = tokenRepository.findByToken(oldToken);
+
+        existingToken.updateToken(UUID.randomUUID().toString()); // 更新token
+
+        return tokenRepository.save(existingToken);
+    }
+
+    @Override
+    public User findUserByToken(String token) {
+
+        VerificationToken verificationToken = tokenRepository.findByToken(token);
+
+        if( verificationToken != null )
+            return verificationToken.getUser();
+
+        return null;
     }
 
     /** -----------------------------------------------------------------  */

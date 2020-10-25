@@ -51,6 +51,11 @@ public class VerificationToken extends BaseEntity {
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
+    /**
+     * 加上現在時將往後一天的期限
+     * @param expiryTimeInMinutes
+     * @return
+     */
     private Date calculateExpiryDate(int expiryTimeInMinutes){
         final Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(new Date().getTime()); // current time
