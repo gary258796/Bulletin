@@ -1,18 +1,18 @@
 'use strict';
 
-var Config = {
+let Config = {
     data: {
         apiBaseUrl: null
     },
     init: function(opt) {
-        var self = this;
+        let self = this;
         self.data = $.extend(self.data, opt);
 
         // Vue.prototype.numeral = numeral; // 可以直接在vue括號裡使用numeral.min.js
         return self.initVue();
     },
     initVue: function() {
-        var self = this;
+        let self = this;
         return Vue.extend({
             el: '#app',
             data: function() {

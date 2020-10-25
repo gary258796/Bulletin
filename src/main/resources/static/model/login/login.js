@@ -1,6 +1,6 @@
 'use strict';
 
-var App = baseVue.extend({
+let App = baseVue.extend({
     data: function(){
         return {
             usernameText: "",
@@ -14,7 +14,7 @@ var App = baseVue.extend({
     watch: {
         usernameText: {
             handler: function(newVal) {
-                var self = this;
+                let self = this;
                 if( newVal.length < 5 )
                     self.usernameAlert = 'UserName can\'t be empty and at least 5 characters. \n';
                 else
@@ -23,7 +23,7 @@ var App = baseVue.extend({
         },
         passwordText: {
             handler: function(newVal, oldVal) {
-                var self = this;
+                let self = this;
                 if( newVal.length < 5 )
                     self.passwordAlert = 'Password can\'t be empty and at least 5 characters. \n';
                 else
@@ -38,7 +38,7 @@ var App = baseVue.extend({
          * @return {boolean} , true的話 form就會submit出去
          */
         checkForm: function(e){
-            var self = this;
+            let self = this;
 
             if( self.usernameText.length >= 5 && self.passwordText.length >= 5) {
                 return true;

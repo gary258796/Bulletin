@@ -1,6 +1,6 @@
 'use strict';
 
-var App = baseVue.extend({
+let App = baseVue.extend({
     data: function(){
         return {
             registerInfo: {
@@ -21,7 +21,7 @@ var App = baseVue.extend({
             // 清空錯誤提示欄位
             $(".alert").html("").hide();
 
-            var self = this ;
+            let self = this ;
             let registerData = self.registerInfo;
 
             if( !self.isFieldsFormatOk(registerData) ){ // 在出錯欄位上顯示提示
@@ -58,7 +58,7 @@ var App = baseVue.extend({
                     if(resp.responseJSON.error == "UserAlreadyExist" ){
                         $("#emailError").show().html(resp.responseJSON.message);
                     }else {
-                        var errors = $.parseJSON(resp.responseJSON.message);
+                        let errors = $.parseJSON(resp.responseJSON.message);
                         $.each( errors, function( index,item ){
                             if (item.field){
                                 $("#"+item.field+"Error").show().append(item.defaultMessage+"<br/>");

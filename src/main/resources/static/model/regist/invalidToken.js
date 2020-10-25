@@ -1,6 +1,6 @@
 'use strict';
 
-var App = baseVue.extend({
+let App = baseVue.extend({
     data: function(){
         return {
         };
@@ -11,15 +11,14 @@ var App = baseVue.extend({
         /**
          * 請求重新發送認證信
          */
-        resendRegistrationEmail: function () {
+        resendRegistrationEmail: function() {
 
-            var self = this;
-            var token = [[${token}]]; // get token in model by using thymeleaf technique
+            let self = this;
+            $.get(self.apiBaseUrl + "/regist/resendRegistrationEmail?token="+ token, function(data){
 
-            $.get(self.apiBaseUrl + "/regist/resendRegistrationEmail?token="+token, function(data){
-
-                // 回到Login page並帶上message
-                window.location.href = self.apiBaseUrl +"login?message=" + data.message;
+                if( confirm(data.message) )
+                    // 回到Login page並帶上message
+                    window.location.href = self.apiBaseUrl +"/login";
 
             }).fail(function(data) {
                     if(data.responseJSON.error.indexOf("MailError") > -1)

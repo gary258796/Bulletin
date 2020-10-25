@@ -18,11 +18,11 @@ Vue.component(
                 // 之後應該還會需要調整 目前先這樣
                 handler: function(newVal) {
 
-                    var currentUrl = window.location.href ;
+                    let currentUrl = window.location.href ;
 
                     if( currentUrl.includes("?lang=") ) {
 
-                        var replaceEndIndex = currentUrl.indexOf("?lang="); // 取道?lang開始之前
+                        let replaceEndIndex = currentUrl.indexOf("?lang="); // 取道?lang開始之前
 
                         window.location.href =  currentUrl.substring(0, replaceEndIndex) + "?lang=" + newVal;
                     }
