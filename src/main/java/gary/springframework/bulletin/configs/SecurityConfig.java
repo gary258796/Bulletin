@@ -68,6 +68,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // TODO:model為靜態資源相關,所以開放,之後可改成除了regist login相關的 其他需要有權限
                 .antMatchers("/admin/**").hasRole("ADMIN") // 訪問這個url的需要有ADMIN的角色
                 .antMatchers("/login*", "/regist/**", "/model/**", "/favicon*", "/h2-console/**","/invalidToken").permitAll()
+                .antMatchers("/webjars/**", "/resources/**", "/css/**").permitAll()
                 .anyRequest().authenticated();
 
 

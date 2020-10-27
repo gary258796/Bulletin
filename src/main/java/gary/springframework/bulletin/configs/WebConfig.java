@@ -9,6 +9,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -72,6 +73,19 @@ public class WebConfig implements WebMvcConfigurer {
         return validator;
     }
 
+
+    /**
+     * 用到 addResourceHandler 的內容
+     * 會自動被替換成 addResourceLocations 的內容
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry
+                .addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/")
+                .resourceChain(false);
+    }
 
     /**
      * 注冊 MethodValidationPostProcessor bean 之後，Controller class 開頭加的 @Validated 與 method 裡針
