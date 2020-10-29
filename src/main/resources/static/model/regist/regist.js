@@ -26,13 +26,11 @@ let App = baseVue.extend({
 
             if( !self.isFieldsFormatOk(registerData) ){ // 在出錯欄位上顯示提示
                 if( !isEmail(registerData.emailText) )
-                    $("#emailError").show().append("Email format uncorrect!<br/>");
+                    $("#emailError").show().append("Email format incorrect!<br/>");
                 if( !correctUserName(registerData.userNameText) )
-                    $("#userNameError").show().append("UserName format uncorrect!<br/>");
+                    $("#userNameError").show().append("UserName format incorrect!<br/>");
                 if( !correctPassword(registerData.passwordText) )
-                    $("#passwordError").show().append("Password format uncorrect!<br/>");
-
-                return;
+                    $("#passwordError").show().append("Password format incorrect!<br/>");
             }else {
                 $.ajax({
                     url: self.apiBaseUrl + "/regist/regist",
@@ -46,16 +44,16 @@ let App = baseVue.extend({
                         matchingPassword: registerData.matchingPasswordText
                     })
                 }).then(function(resp) {
-                    if( resp.message == 'successful') {
+                    if( resp.message === 'successful') {
                         // alert : user registered!
                         alert("Regist success!");
 
                         // let user return to LOGIN Page
                         window.location.href = self.apiBaseUrl + "/login" ;
                     }
-                    else if( resp.message == 'fail' ) alert(resp.error);
+                    else if( resp.message === 'fail' ) alert(resp.error);
                 }).fail(function(resp) {
-                    if(resp.responseJSON.error == "UserAlreadyExist" ){
+                    if(resp.responseJSON.error === "UserAlreadyExist" ){
                         $("#emailError").show().html(resp.responseJSON.message);
                     }else {
                         let errors = $.parseJSON(resp.responseJSON.message);
@@ -76,13 +74,8 @@ let App = baseVue.extend({
          * @return Boolean
          */
         isFieldsFormatOk(registerData) {
-            return true ;
-
-            if( isEmail(registerData.emailText) && correctUserName(registerData.userNameText)
-                && correctPassword(registerData.passwordText) )
-                return true ;
-
-            return false ;
+            return isEmail(registerData.emailText) && correctUserName(registerData.userNameText)
+                && correctPassword(registerData.passwordText);
         }
     }
 });

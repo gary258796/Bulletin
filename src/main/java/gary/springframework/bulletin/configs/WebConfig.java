@@ -9,6 +9,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
@@ -73,6 +74,17 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /**
+     * 有註冊的urlPath才能在我們的controller用redirect直接選定要的html路徑
+     * @param registry
+     */
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login/resetPassword.html");
+        registry.addViewController("/login/login.html");
+    }
+
+    /**
+     * TODO: 目前應該是沒使用到 如果之後一樣沒使用到可以刪除
      * 注冊 MethodValidationPostProcessor bean 之後，Controller class 開頭加的 @Validated 與 method 裡針
      * 對 @RequestParam annotation 加的 validate annotation (e.g. @NotBlank, @NotNull ...etc)才會生效，
      * 沒注冊時就算程式碼裡有加這些 annotation 還是不會有作用

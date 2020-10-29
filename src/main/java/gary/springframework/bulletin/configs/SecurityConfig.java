@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -39,11 +40,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * @param web
      * @throws Exception
      */
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        super.configure(web);
-//        //        web.ignoring().antMatchers("/config/**", "/css/**", "/fonts/**", "/img/**", "/js/**");
-//    }
+    @Override
+    public void configure(WebSecurity web){
+        web.ignoring().antMatchers("/model/**", "/webjars/**", "/resources/**", "/css/**");
+    }
 
     /**
      * AuthenticationManagerBuilder會幫我們依照我們的需求建立AuthenticationManager
@@ -65,10 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // authorizeRequests越特定的條件要放在越前面
-                // TODO:model為靜態資源相關,所以開放,之後可改成除了regist login相關的 其他需要有權限
                 .antMatchers("/admin/**").hasRole("ADMIN") // 訪問這個url的需要有ADMIN的角色
-                .antMatchers("/login*", "/regist/**", "/model/**", "/favicon*", "/h2-console/**","/invalidToken").permitAll()
-                .antMatchers("/webjars/**", "/resources/**", "/css/**").permitAll()
+                .antMatchers("/login*", "/login/**", "/regist/**","/forgetPassword*", "/resetPassword*").permitAll()
+                .antMatchers("/favicon*", "/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 
 

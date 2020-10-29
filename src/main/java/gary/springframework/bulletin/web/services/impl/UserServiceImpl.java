@@ -1,9 +1,10 @@
 package gary.springframework.bulletin.web.services.impl;
 
-import gary.springframework.bulletin.data.entity.VerificationToken;
-import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.data.entity.VerificationToken;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
+import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
+import gary.springframework.bulletin.web.repositories.ResetPasswordTokenRepository;
 import gary.springframework.bulletin.web.repositories.RoleRepository;
 import gary.springframework.bulletin.web.repositories.UserRepository;
 import gary.springframework.bulletin.web.repositories.VerificationTokenRepository;
@@ -16,7 +17,6 @@ import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -28,14 +28,16 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository ;
     private final RoleRepository roleRepository;
     private final VerificationTokenRepository tokenRepository;
+    private final ResetPasswordTokenRepository resetPasswordTokenRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository tokenRepository) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository tokenRepository, ResetPasswordTokenRepository resetPasswordTokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.tokenRepository = tokenRepository;
+        this.resetPasswordTokenRepository = resetPasswordTokenRepository;
     }
 
-    /** -----------------------------------------------------------------  */
+    /** ---------------------------Custom Methods--------------------------------------  */
 
     @Override
     public User findByUserName(String userName) {
@@ -50,6 +52,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUserNameAndEmail(String userName, String email) {
         return userRepository.findByUserNameAndEmail(userName, email);
+    }
+
+    @Override
+    public User findUserByToken(String token) {
+
+        VerificationToken verificationToken = tokenRepository.findByToken(token);
+
+        if( verificationToken != null ) return verificationToken.getUser();
+
+        return null;
     }
 
     /**
@@ -79,6 +91,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByResetPasswordToken(String resetToken) {
+        return resetPasswordTokenRepository.findByToken(resetToken).getUser();
+    }
+
+    @Override
+    public void changeUserPassword(User user, String newPassword) {
+        user.setPassword( passwordEncoder.encode(newPassword) );
+        userRepository.save(user);
+    }
+
+    @Override
     public Boolean emailExist(String email) {
         return findByEmail(email) != null;
     }
@@ -86,43 +109,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean userNameExist(String userName) {
         return findByUserName(userName) != null;
-    }
-
-    @Override
-    public void createVerificationTokenForUser(final User user, final String token) {
-        final VerificationToken verificationToken = new VerificationToken(token, user);
-        tokenRepository.save(verificationToken);
-    }
-
-    @Override
-    public VerificationToken getVerificationToken(String token) {
-        return tokenRepository.findByToken(token);
-    }
-
-    /**
-     * 產生新的驗證Token並更新Verification Table
-     * @param oldToken
-     * @return
-     */
-    @Override
-    public VerificationToken generateNewVerificationToken(String oldToken) {
-
-        VerificationToken existingToken = tokenRepository.findByToken(oldToken);
-
-        existingToken.updateToken(UUID.randomUUID().toString()); // 更新token
-
-        return tokenRepository.save(existingToken);
-    }
-
-    @Override
-    public User findUserByToken(String token) {
-
-        VerificationToken verificationToken = tokenRepository.findByToken(token);
-
-        if( verificationToken != null )
-            return verificationToken.getUser();
-
-        return null;
     }
 
     /** -----------------------------------------------------------------  */
@@ -141,9 +127,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User object) {
-
-
-
         return userRepository.save(object);
     }
 

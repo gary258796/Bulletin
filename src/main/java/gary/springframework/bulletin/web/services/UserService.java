@@ -1,9 +1,8 @@
 package gary.springframework.bulletin.web.services;
 
-import gary.springframework.bulletin.data.entity.VerificationToken;
-import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
 import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
+import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
 
 public interface UserService extends CrudService<User, Long>{
 
@@ -13,21 +12,17 @@ public interface UserService extends CrudService<User, Long>{
 
     User findByUserNameAndEmail(String userName, String email);
 
-
     // Custom
+    User findUserByToken(String token);
+
     User registerNewUserAccount(UserRegistDto userRegistDto) throws UserAlreadyExistException;
+
+    User getUserByResetPasswordToken(String resetToken);
+
+    void changeUserPassword(User user, String newPassword);
 
     Boolean emailExist(String email);
 
     Boolean userNameExist(String userName);
-
-    // Token related
-    void createVerificationTokenForUser(User user, String token);
-
-    VerificationToken getVerificationToken(String token);
-
-    VerificationToken generateNewVerificationToken(String oldToken);
-
-    User findUserByToken(String token);
 
 }

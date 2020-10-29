@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Setter
 public class GenericResponse {
 
-    private String message;
+    private String message; // 成功or
     private String error;
 
     public GenericResponse(final String message) {

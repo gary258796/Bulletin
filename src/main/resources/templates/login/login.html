@@ -12,9 +12,13 @@
 
         <h1 th:text="#{message.welcome.hello}"></h1>
 
-        <!--Show Login Error Message from server-->
+        <!--Show Login Error from server-->
         <div th:if="${param.error != null}"
              th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
+
+        <!--Show Message from server-->
+        <div th:if="${message != null}" class="alert alert-info" th:utext="${message}">Message</div>
+
 
         <!--Login Form-->
         <!--  th:action="/transfer" , by using this,  thymeleaf will handle csrf token for us automatically -->
@@ -33,11 +37,15 @@
                 <label v-if="passwordAlert !== ''">{{passwordAlert}}</label>
             </div>
 
+            <a href="/forgetPassword">
+                <span th:text="#{message.forgotPassword.title}">forgot password</span>
+            </a><br>
+
             <input class="btn btn-primary" name="submit" type="submit" th:value="#{message.login}" />
         </form>
 
         <button @click="register()" class="btn btn-primary">
-            <span th:text="#{message.want.regist}" />
+            <span th:text="#{message.want.regist}">Create Account!</span>
         </button>
 
     </th:block>

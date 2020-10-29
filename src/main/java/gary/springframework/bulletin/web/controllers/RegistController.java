@@ -4,14 +4,14 @@ import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.data.entity.VerificationToken;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 import gary.springframework.bulletin.data.model.response.GenericResponse;
-import gary.springframework.bulletin.normalstuff.event.OnRegistrationSendMailEvent;
+import gary.springframework.bulletin.normalstuff.event.OnSendMailEvent;
 import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
-import gary.springframework.bulletin.normalstuff.util.SendEmailHelper;
+import gary.springframework.bulletin.normalstuff.util.Mail.SendType;
 import gary.springframework.bulletin.web.services.UserService;
+import gary.springframework.bulletin.web.services.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.UUID;
 
 /**
  * 負責註冊相關的處理(顯示註冊頁面,處理註冊以及註冊認證)
@@ -36,11 +37,12 @@ public class RegistController {
     private MessageSource messageSource;
 
     private final UserService userService;
-    private final SendEmailHelper mailService;
+    private final VerificationTokenService verificationTokenService;
 
-    public RegistController(UserService userService, SendEmailHelper mailService) { super();
+    public RegistController(UserService userService, VerificationTokenService verificationTokenService) {
+        super();
         this.userService = userService;
-        this.mailService = mailService;
+        this.verificationTokenService = verificationTokenService;
     }
 
     /**
@@ -60,23 +62,24 @@ public class RegistController {
     @ResponseBody
     @PostMapping(value = "/regist")
     public GenericResponse doRegistration(@Valid @RequestBody final UserRegistDto userRegistDto,
-                                           final HttpServletRequest request, final Errors errors) {
-
-        GenericResponse genericResponse = new GenericResponse("successful");
+                                           final HttpServletRequest request, final Errors errors, Locale locale) {
 
         try {
+            // Create user and save
             final User registeredUser = userService.registerNewUserAccount(userRegistDto);
-            String appUrl = getAppUrl(request);
-            Locale locale = LocaleContextHolder.getLocale();
 
-            // 發佈事件
-            applicationEventPublisher.publishEvent( new OnRegistrationSendMailEvent(registeredUser, appUrl, locale) );
+            // Create token and save
+            final String token = UUID.randomUUID().toString();
+            verificationTokenService.createVerificationTokenForUser(registeredUser, token);
+
+            // Publish event
+            applicationEventPublisher.publishEvent( new OnSendMailEvent(getAppUrl(request), locale, registeredUser, SendType.send, token) );
 
         } catch ( UserAlreadyExistException userAlreadyExistException){
-            genericResponse = new GenericResponse("fail", userAlreadyExistException.getMessage() );
+            return new GenericResponse("fail", userAlreadyExistException.getMessage() );
         }
 
-        return genericResponse;
+        return new GenericResponse("successful");
     }
 
     /**
@@ -87,15 +90,13 @@ public class RegistController {
      * @return
      */
     @GetMapping(value = "/registrationConfirm")
-    public String confirmRegistration(@RequestParam("token") String token, Model model) {
-
-        Locale locale = LocaleContextHolder.getLocale();
-        VerificationToken verificationToken = userService.getVerificationToken(token);
+    public String confirmRegistration(@RequestParam("token") String token, Model model, Locale locale) {
+        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
 
         // can't find token in db
         if( verificationToken == null ) {
             // show invalid token page
-            String message = messageSource.getMessage("message.register.invalidToken", null, locale);
+            String message = messageSource.getMessage("message.invalidToken", null, locale);
             model.addAttribute("message", message);
             return "/regist/invalidToken";
         }
@@ -104,11 +105,9 @@ public class RegistController {
         Calendar currentTime = Calendar.getInstance();
 
         // if token expired
-
-//        (verificationToken.getExpiryDate().getTime() - currentTime.getTime().getTime() ) <= 0
-        if( true ) {
+        if( (verificationToken.getExpiryDate().getTime() - currentTime.getTime().getTime() ) <= 0 ) {
             // show invalid token page
-            String message = messageSource.getMessage("message.register.tokenExpired", null, locale);
+            String message = messageSource.getMessage("message.tokenExpired", null, locale);
             model.addAttribute("message", message);
             model.addAttribute("expired", true);
             model.addAttribute("token", token);
@@ -119,7 +118,7 @@ public class RegistController {
         user.setEnabled(true);
         // save to db
         userService.save(user);
-        //
+        // TODO: delete this user's token in db
         return "login/login";
     }
 
@@ -130,26 +129,16 @@ public class RegistController {
      */
     @ResponseBody
     @GetMapping(value = "/resendRegistrationEmail")
-    public GenericResponse resendEmail(@RequestParam("token") String existingTokenString, HttpServletRequest request) {
+    public GenericResponse resendEmail(@RequestParam("token") String existingTokenString, HttpServletRequest request, Locale locale) {
         // 重設token以及其過期時間
-        final VerificationToken newToken = userService.generateNewVerificationToken(existingTokenString);
+        final VerificationToken newToken = verificationTokenService.generateNewVerificationToken(existingTokenString);
         final User user = userService.findUserByToken( newToken.getToken() );
-        Locale locale = LocaleContextHolder.getLocale();
 
-        // 重新發送一封信給User
-        mailService.resendRegistrationEmail(user.getEmail(), getAppUrl(request), newToken.getToken(), locale);
+        // 發佈事件
+        applicationEventPublisher.publishEvent( new OnSendMailEvent(getAppUrl(request), locale, user, SendType.resend, newToken.getToken()) );
 
         String responseMsg = messageSource.getMessage("message.success.resend", null, locale);
         return new GenericResponse(responseMsg);
-    }
-
-    /**
-     * 導到錯誤憑證頁面
-     * @return
-     */
-    @GetMapping(value = "/invalidToken")
-    public String invalidToken() {
-        return "/regist/invalidToken";
     }
 
     /* Methods Below */
