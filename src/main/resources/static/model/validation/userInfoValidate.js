@@ -19,7 +19,7 @@ function isEmail(email) {
  * @return {boolean}
  */
 function correctUserName(userName) {
-    if(userName.length >= 10 )
+    if(userName.length >= 5 )
         return true;
 
     return false ;
@@ -31,7 +31,7 @@ function correctUserName(userName) {
  * @return {boolean}
  */
 function correctPassword(password) {
-    if(password.length >= 10 )
+    if(password.length >= 5 )
         return true;
 
     return false ;

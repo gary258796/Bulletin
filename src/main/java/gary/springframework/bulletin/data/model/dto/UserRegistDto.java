@@ -1,6 +1,6 @@
 package gary.springframework.bulletin.data.model.dto;
 
-import gary.springframework.bulletin.normalstuff.validations.PasswordMatches;
+import gary.springframework.bulletin.normalstuff.validations.FieldMatch;
 import gary.springframework.bulletin.normalstuff.validations.ValidEmail;
 import lombok.Data;
 import lombok.ToString;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @ToString
-@PasswordMatches
+@FieldMatch(first = "password", second = "matchingPassword", message = "{Passwords.not.matched}")
 public class UserRegistDto implements Serializable {
 
     @NotNull
