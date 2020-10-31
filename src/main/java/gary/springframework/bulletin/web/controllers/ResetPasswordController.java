@@ -6,6 +6,7 @@ import gary.springframework.bulletin.data.model.response.GenericResponse;
 import gary.springframework.bulletin.web.services.ResetPasswordTokenService;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,14 @@ import java.util.Locale;
 @Controller
 public class ResetPasswordController {
 
+    private final PasswordEncoder passwordEncoder;
     private final MessageSource messageSource;
     private final UserService userService;
     private final ResetPasswordTokenService resetPasswordTokenService;
 
-    public ResetPasswordController(MessageSource messageSource, UserService userService, ResetPasswordTokenService resetPasswordTokenService) {
+    public ResetPasswordController(PasswordEncoder passwordEncoder, MessageSource messageSource,
+                                   UserService userService, ResetPasswordTokenService resetPasswordTokenService) {
+        this.passwordEncoder = passwordEncoder;
         this.messageSource = messageSource;
         this.userService = userService;
         this.resetPasswordTokenService = resetPasswordTokenService;
@@ -38,7 +42,7 @@ public class ResetPasswordController {
         String result = resetPasswordTokenService.validatePasswordResetToken(token);
 
         // sth went wrong
-        if( true){ // result != null
+        if( result != null ){
             String message = messageSource.getMessage("auth.message", null, locale) + ( result == null ? "" : result)  ;
             model.addAttribute("message", message);
             return "login/login";
@@ -55,15 +59,23 @@ public class ResetPasswordController {
 
         // Validate token
         String result = resetPasswordTokenService.validatePasswordResetToken(passwordDto.getToken());
-
         // sth went wrong
         if( result != null )
             return new GenericResponse("fail", messageSource.getMessage("auth.message" , null, locale) + ( result == null ? "" : result) );
 
+        // Get user by token
         User user = userService.getUserByResetPasswordToken(passwordDto.getToken());
-        if( user != null  ){ // change password
-            userService.changeUserPassword(user, passwordDto.getPassword());
-            return new GenericResponse("successful", messageSource.getMessage("message.resetPasswordSuc", null, locale));
+        if( user != null  ){
+            // check if new Password different with original one
+            if( !passwordEncoder.matches(passwordDto.getPassword(), user.getPassword() ) ){
+                // change password
+                userService.changeUserPassword(user, passwordDto.getPassword());
+                return new GenericResponse("successful", messageSource.getMessage("message.resetPasswordSuc", null, locale));
+            }
+            else {
+                // refuse to change
+                return new GenericResponse("fail", messageSource.getMessage("message.password.same", null, locale));
+            }
         } else
             return new GenericResponse("fail", messageSource.getMessage("auth.userNotFound.message", null, locale));
     }
