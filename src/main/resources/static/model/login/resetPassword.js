@@ -7,6 +7,7 @@ let App = baseVue.extend({
             passwordAlert: "",
             matchingPasswordText: "",
             matchingPasswordAlert: "",
+            globalError: "",
             token: ""
         };
     },
@@ -64,24 +65,15 @@ let App = baseVue.extend({
                     window.location.href = self.apiBaseUrl + "/login" ;
                 }
                 else{
-                    var errors = $.parseJSON(resp.responseJSON.message);
+                    let errors = $.parseJSON(resp.responseJSON.message);
                     $.each( errors, function( index,item ){
-                        console.log(item.defaultMessage);
+                        if (item.field){
+                            self.matchingPasswordAlert = item.defaultMessage;
+                        }
+                        else {
+                            self.globalError = item.defaultMessage;
+                        }
                     });
-
-                    errors = $.parseJSON(resp.responseJSON.error);
-                    $.each( errors, function( index,item ){
-                        console.log(item.defaultMessage);
-                    });
-
-                    // var errors = $.parseJSON(resp.responseJSON.message);
-                    // $.each( errors, function( index,item ){
-                    //     $("#globalError").show().html(item.defaultMessage);
-                    // });
-                    // errors = $.parseJSON(resp.responseJSON.error);
-                    // $.each( errors, function( index,item ){
-                    //     $("#globalError").show().append(item.defaultMessage+"<br/>");
-                    // });
                 }
             });
         }

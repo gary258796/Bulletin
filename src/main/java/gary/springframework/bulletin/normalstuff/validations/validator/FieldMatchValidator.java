@@ -37,7 +37,7 @@ public class FieldMatchValidator
         // 如果valid為false, 重新定義默認的錯誤訊息模板
         if( !valid ){
             context.buildConstraintViolationWithTemplate(message)
-                    .addPropertyNode(firstFieldName)
+                    .addPropertyNode(firstFieldName) // 指定是哪個欄位要報錯
                     .addConstraintViolation()
                     .disableDefaultConstraintViolation(); // 禁用default的message訊息
         }
