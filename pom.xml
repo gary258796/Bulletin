@@ -16,6 +16,14 @@
 
     <properties>
         <java.version>11</java.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <nz.net.ultraq.thymeleaf.version>2.3.0</nz.net.ultraq.thymeleaf.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <org.webjars.locator.version>0.40</org.webjars.locator.version>
+        <org.webjars.jquery.version>3.5.1</org.webjars.jquery.version>
+        <org.webjars.popper.version>1.16.0</org.webjars.popper.version>
+        <org.webjars.bootstrap.version>4.5.3</org.webjars.bootstrap.version>
+        <org.webjars.vue.version>2.6.11</org.webjars.vue.version>
     </properties>
 
     <dependencies>
@@ -81,7 +89,7 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>2.0.1.Final</version>
+            <version>${javax.validation.version}</version>
         </dependency>
 
         <dependency>
@@ -92,45 +100,45 @@
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
-            <version>2.3.0</version>
+            <version>${nz.net.ultraq.thymeleaf.version}</version>
         </dependency>
 
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.4</version>
+            <version>${commons-beanutils.version}</version>
         </dependency>
 
         <!-- WebJar -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator</artifactId>
-            <version>0.40</version>
+            <version>${org.webjars.locator.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>jquery</artifactId>
-            <version>3.5.1</version>
+            <version>${org.webjars.jquery.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>popper.js</artifactId>
-            <version>1.16.0</version>
+            <version>${org.webjars.popper.version}</version>
         </dependency>
 
         <!--will bring jquery for us , also popper.js-->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>bootstrap</artifactId>
-            <version>4.5.3</version>
+            <version>${org.webjars.bootstrap.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>vue</artifactId>
-            <version>2.6.11</version>
+            <version>${org.webjars.vue.version}</version>
         </dependency>
 
     </dependencies>
