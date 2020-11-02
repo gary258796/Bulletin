@@ -1,5 +1,6 @@
 package gary.springframework.bulletin.security;
 
+import gary.springframework.bulletin.data.entity.Privilege;
 import gary.springframework.bulletin.data.entity.Role;
 import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.web.repositories.UserRepository;
@@ -46,10 +47,40 @@ public class MyUserDetailsService implements UserDetailsService {
     }
 
     // methods
-    private static List<GrantedAuthority> getAuthorities (final Collection<Role> roles) {
+    /**
+     * 取得該登入者所擁有之所有授權
+     * @param roles
+     * @return
+     */
+    private List<GrantedAuthority> getAuthorities (final Collection<Role> roles) {
+        return getGrantedAuthorities( getPrivileges(roles) );
+    }
+
+    /**
+     * 取得該使用者所有所屬角色(可能不只一個角色)的所有權限
+     * @param roles
+     * @return
+     */
+    private List<String> getPrivileges(final Collection<Role> roles ) {
+        List<String> privileges = new ArrayList<>();
+        List<Privilege> collections = new ArrayList<>();
+        for( Role role: roles )
+            collections.addAll(role.getPrivileges());
+        for( Privilege privilege: collections )
+            privileges.add(privilege.getName());
+
+        return privileges;
+    }
+
+    /**
+     * 依照權限(privilege)去產生授權
+     * @param privileges: 權限
+     * @return
+     */
+    private List<GrantedAuthority> getGrantedAuthorities(List<String> privileges) {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        for (String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
         }
         return authorities;
     }

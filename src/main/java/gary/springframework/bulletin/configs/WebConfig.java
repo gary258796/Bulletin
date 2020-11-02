@@ -81,6 +81,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login/resetPassword.html");
         registry.addViewController("/login/login.html");
+        registry.addViewController("/home/home.html");
     }
 
     /**
