@@ -24,6 +24,8 @@
         <org.webjars.popper.version>1.16.0</org.webjars.popper.version>
         <org.webjars.bootstrap.version>4.5.3</org.webjars.bootstrap.version>
         <org.webjars.vue.version>2.6.11</org.webjars.vue.version>
+        <org.passay.version>1.0</org.passay.version>
+        <guava.version>20.0</guava.version>
     </properties>
 
     <dependencies>
@@ -107,6 +109,18 @@
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
             <version>${commons-beanutils.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.passay</groupId>
+            <artifactId>passay</artifactId>
+            <version>${org.passay.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <!-- WebJar -->

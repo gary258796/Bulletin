@@ -2,6 +2,7 @@ package gary.springframework.bulletin.data.model.dto;
 
 import gary.springframework.bulletin.normalstuff.validations.FieldMatch;
 import gary.springframework.bulletin.normalstuff.validations.ValidEmail;
+import gary.springframework.bulletin.normalstuff.validations.ValidPassword;
 import lombok.Data;
 import lombok.ToString;
 
@@ -29,6 +30,7 @@ public class UserRegistDto implements Serializable {
 
 
     @NotNull
+    @ValidPassword
     @Size(min = 5, message = "{Size.must.greater}")
     private String password;
 
