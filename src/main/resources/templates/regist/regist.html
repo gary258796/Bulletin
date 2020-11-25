@@ -10,38 +10,39 @@
 
     <th:block layout:fragment="body">
 
-        <div>
-            <label id="alertLabel"></label>
+        <body class="text-center" style="display: block">
+            <div class="div-as-form-login">
 
-            <div>
-                <label th:text="#{message.email}">Email</label>
-                <input type="text" name="email" v-model="registerInfo.emailText" class="form-control">
-                <span id="emailError" class="alert" style="display:none"></span>
-            </div>
-            <div>
-                <label th:text="#{message.username}">UserName</label>
-                <input type="text" name="username" v-model="registerInfo.userNameText"
-                       maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="userNameError" class="alert" style="display:none"></span>
-            </div>
-            <div>
-                <label th:text="#{message.password}">Password</label>
-                <input type="password" name="password" v-model="registerInfo.passwordText"
-                       maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="passwordError" class="alert" style="display:none"></span>
-            </div>
-            <div>
-                <label th:text="#{message.matchingPassword}">Matching Password</label>
-                <input type="password" name="matchingPassword" v-model="registerInfo.matchingPasswordText"
-                       maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
-                <span id="globalError" class="alert" style="display:none"></span>
-            </div>
+                <h1 class="h3 mb-3 font-weight-normal" th:text="#{message.account.register}">Account Register</h1>
 
-            <br>
-            <button @click="register()" style="width: 150px; margin: 5px; font-size : 16px;">
-                <span th:text="#{message.regist}" />
-            </button>
-        </div>
+                <label id="alertLabel"></label>
+
+                <div>
+                    <input type="text" name="email" v-model="registerInfo.emailText" class="form-control" th:placeholder="#{message.email}">
+                    <span id="emailError" class="alert" style="display:none"></span>
+                </div>
+                <div>
+                    <input type="text" name="username" v-model="registerInfo.userNameText"
+                           maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" th:placeholder="#{message.username}">
+                    <span id="userNameError" class="alert" style="display:none"></span>
+                </div>
+                <div>
+                    <input type="password" name="password" v-model="registerInfo.passwordText"
+                           maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" th:placeholder="#{message.password}">
+                    <span id="passwordError" class="alert" style="display:none"></span>
+                </div>
+                <div>
+                    <input type="password" name="matchingPassword" v-model="registerInfo.matchingPasswordText"
+                           maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" th:placeholder="#{message.matchingPassword}">
+                    <span id="globalError" class="alert" style="display:none"></span>
+                </div>
+
+                <br>
+                <button @click="register()" class="btn btn-lg btn-primary btn-block">
+                    <span th:text="#{message.regist}" />
+                </button>
+            </div>
+        </body>
     </th:block>
 
 

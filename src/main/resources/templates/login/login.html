@@ -24,12 +24,12 @@
                 <h1 class="h3 mb-3 font-weight-normal" th:text="#{message.signIn.message}">Gary Bulletin</h1>
 
                 <!-- UserName -->
-                <input type="text" name="username" placeholder="UserName" v-model="usernameText"
+                <input type="text" name="username" th:placeholder="#{message.username}" v-model="usernameText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
                 <label v-if="usernameAlert !== ''">{{usernameAlert}}</label>
 
                 <!-- Password -->
-                <input type="password" name="password" placeholder="Password" v-model="passwordText"
+                <input type="password" name="password" th:placeholder="#{message.password}" v-model="passwordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" >
                 <label v-if="passwordAlert !== ''">{{passwordAlert}}</label>
 
