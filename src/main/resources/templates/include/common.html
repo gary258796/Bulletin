@@ -17,8 +17,8 @@
                 </select>
             </header>
         </vue-header>
-        <div sec:authorize="isAuthenticated()">
-            <vue-logout-button></vue-logout-button>
+        <div sec:authorize="isAuthenticated()" style="display: inline;">
+            <vue-logout-button ></vue-logout-button>
         </div>
 
         <script

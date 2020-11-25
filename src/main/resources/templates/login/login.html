@@ -10,8 +10,6 @@
 
     <th:block layout:fragment="body">
 
-        <h1 th:text="#{message.welcome.hello}"></h1>
-
         <!--Show Login Error from server-->
         <div th:if="${param.error != null}"
              th:text="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
@@ -19,34 +17,37 @@
         <!--Show Message from server-->
         <div th:if="${message != null}" class="alert alert-info" th:utext="${message}">Message</div>
 
+        <body class="text-center" style="display: block">
+            <!--Login Form-->
+            <!--  th:action="/transfer" , by using this,  thymeleaf will handle csrf token for us automatically -->
+            <form name='f' action="login" method='POST' @submit="checkForm" class="form-signin">
+                <h1 class="h3 mb-3 font-weight-normal" th:text="#{message.signIn.message}">Gary Bulletin</h1>
 
-        <!--Login Form-->
-        <!--  th:action="/transfer" , by using this,  thymeleaf will handle csrf token for us automatically -->
-        <form name='f' action="login" method='POST' @submit="checkForm">
-
-            <div>
-                <label th:text="#{message.username}">UserName</label>
+                <!-- UserName -->
                 <input type="text" name="username" placeholder="UserName" v-model="usernameText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control">
                 <label v-if="usernameAlert !== ''">{{usernameAlert}}</label>
-            </div>
-            <div>
-                <label th:text="#{message.password}">Password</label>
+
+                <!-- Password -->
                 <input type="password" name="password" placeholder="Password" v-model="passwordText"
                        maxlength="10" onkeyup="value=value.replace(/[^\w]/ig,'')" class="form-control" >
                 <label v-if="passwordAlert !== ''">{{passwordAlert}}</label>
-            </div>
 
-            <a href="/forgetPassword">
-                <span th:text="#{message.forgotPassword.title}">forgot password</span>
-            </a><br>
+                <br>
+                <a href="/forgetPassword">
+                    <span th:text="#{message.forgotPassword.title}">forgot password</span>
+                </a><br><br>
 
-            <input class="btn btn-primary" name="submit" type="submit" th:value="#{message.login}" />
-        </form>
+                <button type="submit" class="btn btn-lg btn-primary btn-block">
+                    <span th:text="#{message.login}">Login</span>
+                </button>
 
-        <button @click="register()" class="btn btn-primary">
-            <span th:text="#{message.want.regist}">Create Account!</span>
-        </button>
+                <button @click="register()" type="button" class="btn btn-lg btn-primary btn-block">
+                    <span th:text="#{message.want.regist}">Create Account!</span>
+                </button>
+            </form>
+
+        </body>
 
     </th:block>
 

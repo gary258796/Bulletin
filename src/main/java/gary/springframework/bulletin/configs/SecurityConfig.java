@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 // authorizeRequests越特定的條件要放在越前面
                 .antMatchers("/admin/**").hasRole("ADMIN") // 訪問這個url的需要有ADMIN的角色
-                .antMatchers("/login*", "/login/**", "/regist/**","/forgetPassword*", "/resetPassword*").permitAll()
+                .antMatchers("/login*", "/login/**", "/regist/**","/forgetPassword*", "/resetPassword*").permitAll() // 和一開始註冊相關流程的都不需要任何權限認證
                 .antMatchers("/favicon*", "/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 
