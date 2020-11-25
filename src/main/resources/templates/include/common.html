@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
     <script type="text/x-template" id="my-component">
         <div class="component">A custom component of Vue!</div>
@@ -8,7 +8,7 @@
     <th:block th:fragment="header">
 
         <vue-header ref="header" inline-template>
-            <header>
+            <header style="display: inline;">
                 <span th:text="#{message.change}"></span>:
                 <select id="locales" v-model="locale">
                     <option value=""      th:text="#{message.please.choose}"></option>
@@ -17,6 +17,9 @@
                 </select>
             </header>
         </vue-header>
+        <div sec:authorize="isAuthenticated()">
+            <vue-logout-button></vue-logout-button>
+        </div>
 
         <script
                 th:src="@{/model/locale/changelanguage.js}"></script>

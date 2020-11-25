@@ -7,8 +7,6 @@ let Config = {
     init: function(opt) {
         let self = this;
         self.data = $.extend(self.data, opt);
-
-        // Vue.prototype.numeral = numeral; // 可以直接在vue括號裡使用numeral.min.js
         return self.initVue();
     },
     initVue: function() {

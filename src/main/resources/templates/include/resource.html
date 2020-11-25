@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <th:block th:fragment="css">
 
 </th:block>
@@ -18,7 +19,6 @@
 </th:block>
 
 <th:block th:fragment="config">
-
     <script th:src="@{/model/config.js}"></script>
 
     <script th:inline="javascript">
@@ -27,4 +27,10 @@
         });
     </script>
 </th:block>
+
+<!-- baseView載入之後, 因此如果一些東西需要用到baseView需要放在這引入 不然會報錯-->
+<th:block th:fragment="afterConfig">
+    <script th:src="@{/model/home/logoutButton.js}"></script>
+</th:block>
+
 </html>

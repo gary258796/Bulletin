@@ -80,7 +80,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .failureHandler(authenticationFailureHandler)   // 登入失敗處理器, 在裡面設定失敗要導到哪個url
             .permitAll()
             .and()
-            .logout().permitAll();
+            .logout()
+            .logoutUrl("/do_logout")
+            .logoutSuccessUrl("/login")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .permitAll();
+                // .deleteCookies()
 
         // .access 更強大更方便 之後可加入
         // Reference :  https://docs.spring.io/spring-security/site/docs/current/reference/html5/#el-access
