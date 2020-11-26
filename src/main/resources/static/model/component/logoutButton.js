@@ -2,7 +2,7 @@
 
 Vue.component(
     'vue-logout-button',
-    baseVue.extend({
+    baseVueWithoutEl.extend({
         template: '<button @click="logout()" class="btn btn-primary" style="display: inline;"><span th:text="#{message.logout}">Logout</span></button>',
         methods: {
             /**

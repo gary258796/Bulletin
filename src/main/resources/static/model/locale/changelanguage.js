@@ -2,7 +2,7 @@
 
 Vue.component(
     'vue-header',
-    baseVue.extend({
+    baseVueWithoutEl.extend({
         props: {
         },
         data: function() {

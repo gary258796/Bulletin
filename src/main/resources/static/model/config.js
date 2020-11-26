@@ -4,10 +4,15 @@ let Config = {
     data: {
         apiBaseUrl: null
     },
-    init: function(opt) {
+    /**
+     * @param value
+     * @param opt
+     * @return {*}
+     */
+    init: function(value,opt) {
         let self = this;
         self.data = $.extend(self.data, opt);
-        return self.initVue();
+        return value === 1 ? self.initVue() : self.initVueWithoutEl();
     },
     initVue: function() {
         let self = this;
@@ -26,6 +31,15 @@ let Config = {
                 //     return user !== null ? true : false;
                 // }
             }
+        });
+    },
+    initVueWithoutEl: function() {
+        let self = this;
+        return Vue.extend({
+            data: function() {
+                return $.extend(self.data, {});
+            },
+            methods: {}
         });
     }
 };

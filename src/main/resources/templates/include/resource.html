@@ -24,7 +24,10 @@
     <script th:src="@{/model/config.js}"></script>
 
     <script th:inline="javascript">
-        var baseVue = Config.init({
+        var baseVue = Config.init(1, {
+            apiBaseUrl: [[${@environment.getProperty("api.url")}]]
+        });
+        var baseVueWithoutEl = Config.init(2, {
             apiBaseUrl: [[${@environment.getProperty("api.url")}]]
         });
     </script>
