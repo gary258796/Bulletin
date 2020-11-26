@@ -1,0 +1,18 @@
+.text-area {
+    display: inline;
+    box-sizing: padding-box;
+    overflow: hidden;
+    padding: 10px;
+    width: 700px;
+    font-size: 14px;
+    margin: 50px auto;
+    border-radius: 6px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    border: 0;
+}
+
+.text-area:focus {
+    border: none;
+    outline: none;
+}
+

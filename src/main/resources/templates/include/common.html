@@ -20,10 +20,13 @@
         <div sec:authorize="isAuthenticated()" style="display: inline;">
             <vue-logout-button ></vue-logout-button>
         </div>
+    </th:block>
 
-        <script
-                th:src="@{/model/locale/changelanguage.js}"></script>
-
+    <th:block th:fragment="textArea">
+        <script id="vue-text-area-template" th:inline="javascript" type="text/x-template">
+            <textarea class='autoExpand text-area' rows='3' data-min-rows='3' th:placeholder='#{message.write.sth}' autofocus></textarea>
+        </script>
+        <script th:src="@{/model/component/textArea.js}"></script>
     </th:block>
 
 </html>

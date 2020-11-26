@@ -32,7 +32,8 @@
 
 <!-- baseView載入之後, 因此如果一些東西需要用到baseView需要放在這引入 不然會報錯-->
 <th:block th:fragment="afterConfig">
-    <script th:src="@{/model/home/logoutButton.js}"></script>
+    <script th:src="@{/model/locale/changelanguage.js}"></script>
+    <script th:src="@{/model/component/logoutButton.js}"></script>
 </th:block>
 
 </html>
