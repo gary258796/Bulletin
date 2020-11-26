@@ -1,8 +1,9 @@
 'use strict';
 
 Vue.component(
-    'vue-header',
+    'vue-change-language',
     baseVueWithoutEl.extend({
+        template: '#vue-change-language-template',
         props: {
         },
         data: function() {

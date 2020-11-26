@@ -6,20 +6,28 @@
     </script>
 
     <th:block th:fragment="header">
+        <!--Home page 之後的page暫時先不實現i18n-->
+        <div sec:authorize="!isAuthenticated()" style="display: inline;">
+            <vue-change-language></vue-change-language>
+        </div>
 
-        <vue-header ref="header" inline-template>
-            <header style="display: inline;">
+        <div sec:authorize="isAuthenticated()" style="display: inline;">
+            <vue-logout-button></vue-logout-button>
+        </div>
+    </th:block>
+
+    <th:block th:fragment="changeLanguage">
+        <script id="vue-change-language-template" th:inline="javascript" type="text/x-template">
+            <div>
                 <span th:text="#{message.change}"></span>:
                 <select id="locales" v-model="locale">
                     <option value=""      th:text="#{message.please.choose}"></option>
                     <option value="en_US" th:text="#{message.eng}"></option>
                     <option value="zh_TW" th:text="#{message.ch}"></option>
                 </select>
-            </header>
-        </vue-header>
-        <div sec:authorize="isAuthenticated()" style="display: inline;">
-            <vue-logout-button ></vue-logout-button>
-        </div>
+            </div>
+        </script>
+        <script th:src="@{/model/locale/changeLanguage.js}"></script>
     </th:block>
 
     <th:block th:fragment="textArea">
