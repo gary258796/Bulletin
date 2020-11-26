@@ -2,7 +2,7 @@
 
 Vue.component(
     'vue-text-area',
-    baseVue.extend({
+    baseVueWithoutEl.extend({
         template: '#vue-text-area-template',
         mounted: function (){
             const self = this;
