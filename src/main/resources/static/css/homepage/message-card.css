@@ -219,6 +219,7 @@
 /* 按下按鈕之後 下方顯示留言card用 */
 .contact.card {
     background-color: transparent;
+    width: 700px;
 }
 
 .contact .card-header {
