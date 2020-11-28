@@ -2,15 +2,16 @@
     display: flex;
     width: 700px;
     position: relative;
-    overflow: hidden;
 }
 
 .post-left {
-    width: 30%;
+    width: 40%;
     background-color: #484855;
     color: white;
     padding: 3em;
     position: relative;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .post-left_title {
@@ -48,9 +49,11 @@
 }
 
 .post-right {
-    width: 70%;
+    width: 60%;
     background-color: #FEFEFE;
     color: #484855;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 .post-right_body {
@@ -91,25 +94,6 @@
     margin-right: 1em;
 }
 
-.post button {
-    position: absolute;
-    right: 14px;
-    bottom: 14px;
-    width: 30px;
-    height: 30px;
-    background-color: #DA4D1D;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    outline: none;
-    transition: all 0.3s ease;
-    mix-blend-mode: hard-light;
-}
-
-.post:hover button {
-    transform: scale(16.5);
-}
-
 .post:before {
     content: "";
     z-index: 99;
@@ -137,5 +121,244 @@
 }
 
 .shadow {
-    box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2);
+    box-shadow: 0 5px 10px rgba(154,160,185,.05), 0 15px 40px rgba(166,173,201,.2) !important;
+}
+
+/* 上方發言卡 */
+.contact main section {
+    border-radius: 5px;
+}
+/* 上方發言卡END */
+
+/* 中下按鈕使用 */
+.post .post-right .post-right_footer .post-right_footer_pictos button {
+    position: absolute;
+    bottom: 0;
+    right: 50%;
+    background-color: #ffbe44;
+    color: #c63535;
+    border: 0;
+    width: 200px;
+    height: 48px;
+    text-align: center;
+    border-radius: 30px;
+    font-size: 16px;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: -24px;
+    margin-right: -100px;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+    transition-delay: .1s;
+    outline: none;
+    overflow: hidden;
+    z-index: 10;
+    font-family: inherit;
+}
+
+.post .post-right .post-right_footer .post-right_footer_pictos button span {
+    opacity: 1;
+    -webkit-transition: opacity 0.2s;
+    -moz-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+    transition-delay: .4s;
+    display: block;
+    width: 200px;
+    float: left;
+    padding: 15px 0px;
+}
+
+.post .post-right .post-right_footer .post-right_footer_pictos button svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.post .post-right .post-right_footer .post-right_footer_pictos button svg path {
+    fill: #c63535;
+}
+
+.post .post-right .post-right_footer .post-right_footer_pictos button[aria-expanded="true"] {
+    margin-right: 0;
+    right: 20px;
+    width: 65px;
+    height: 65px;
+    margin-bottom: -32.5px;
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    border-radius: 65px;
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+}
+
+.post .post-right .post-right_footer .post-right_footer_pictos button[aria-expanded="true"] span {
+    opacity: 0;
+    transition-delay: 0s;
+    width: 200px;
+}
+
+.post .post-right .post-right_footer .post-right_footer_pictos button[aria-expanded="true"] svg {
+    opacity: 1;
+    transition-delay: .5s;
+}
+/* 中下按鈕使用 END */
+
+/* 按下按鈕之後 下方顯示留言card用 */
+.contact.card {
+    background-color: transparent;
+}
+
+.contact .card-header {
+    padding: 0px;
+}
+
+.contact nav {
+    float: left;
+    width: 700px;
+    overflow: hidden;
+    max-height: 0px;
+    -webkit-transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    transition: all 0.5s;
+}
+
+.contact nav.show {
+    max-height: 600px;
+    -webkit-transition: all 1s;
+    -moz-transition: all 1s;
+    -o-transition: all 1s;
+    transition: all 1s;
+}
+
+/** 按下按鈕之後 對留言card的動畫*/
+.contact nav.show a {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -o-transform: translateY(0px);
+    transform: translateY(0px);
+    -webkit-transition: all 0.7s;
+    -moz-transition: all 0.7s;
+    -o-transition: all 0.7s;
+    transition: all 0.7s;
+}
+
+.contact nav a {
+    float: left;
+    width: 700px;
+    margin-top: 18px;
+    background-color: #ffffff;
+    padding: 18px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+    -moz-transform: translateY(-10px);
+    -ms-transform: translateY(-10px);
+    -o-transform: translateY(-10px);
+    transform: translateY(-10px);
+    position: relative;
+}
+
+@media (min-width: 414px) {
+    .contact nav a {
+        padding: 18px 30px;
+    }
+}
+
+/* 下方留言時間 位置*/
+.contact nav a .time {
+    position: absolute;
+    right: 44px;
+    top: 40%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+/* 下方留言頭貼*/
+.contact nav a .icon {
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+/* 下方留言頭貼 svg path */
+.contact nav a .icon svg {
+    width: 100%;
+    height: 100%;
+    padding: 14px;
+}
+
+/* 下方留言頭貼 svg path */
+.contact nav a .icon svg path {
+    fill: #ffffff;
+}
+
+/* 下方留言的人 */
+.contact nav a .content h1 {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 275%;
+    letter-spacing: .4px;
+}
+
+/* 下方留言的文字內容部分 */
+.contact nav a .content span {
+    font-size: 14px;
+    color: #b3b3b3;
+    display: block;
+    letter-spacing: .4px;
+    padding-top: 10px;
+}
+
+/* 下方留言頭貼背景顏色 */
+.contact nav a .icon.color-class-1 svg {
+    background-color: #d14836;
+}
+
+.contact nav a .icon.color-class-2 svg {
+    background-color: #3b5998;
+}
+
+/* 下方留言的人 顏色 */
+.contact nav a .content h1.color-class-1 {
+    color: #d14836;
+}
+
+.contact nav a .content h1.color-class-2 {
+    color: #3b5998;
+}
+
+/* 下方留言時間*/
+.contact nav a .time.color-class-1 {
+    color: #d14836;
+}
+
+.contact nav a .time.color-class-2 {
+    color: #3b5998;
 }
