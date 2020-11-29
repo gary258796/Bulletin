@@ -5,42 +5,74 @@ Vue.component(
     baseVueWithoutEl.extend({
         template: '#vue-message-card-template',
         props: {
-            name: {
+            /** 發言id */
+            messageId: {
+                type: Number,
+                required: true
+            },
+            /** 發言者名稱 */
+            messageName: {
                 type: String,
                 required: true,
             },
+            /** 發言者綽號 */
             nickName: {
                 type: String,
                 required: false,
             },
+            /** 發言者地點 */
             location: {
                 type: String,
                 required: false,
             },
+            /** 發言內容 */
             content: {
                 type: String,
                 required: true,
             },
+            /** 發言日期 */
             date: {
                 type: String,
                 required: true,
             },
+            /** 發言時間 */
             time: {
                 type: String,
                 required: true,
             },
+            /** 該發言的回覆訊息物件陣列 */
             commentObj: {
-                type: Array
+                type: Array,
+                required: false
             },
+            /** 元件對應collapse以及相關bootstrap功能方面使用 */
             headingId: {
-                type: String
+                type: String,
+                required: true
             },
+            /** 元件對應collapse以及相關bootstrap功能方面使用 */
             collapseId: {
-                type: String
+                type: String,
+                required: true
             },
+            /** 元件對應collapse以及相關bootstrap功能方面使用 */
             buttonId: {
+                type: String,
+                required: true
+            },
+            /** 現在登入的使用者名稱 */
+            loginUserName: {
                 type: String
             }
+        },
+        computed: {
+          commentCount: function() {
+              let self = this;
+              if(typeof (self.commentObj) !== 'undefined' && self.commentObj !== null){
+                  return self.commentObj.length;
+              }
+              return 0 ;
+          }
         },
         mounted: function() {
             /**

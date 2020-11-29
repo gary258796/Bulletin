@@ -46,7 +46,7 @@
                             <div class="post shadow">
                                 <div class="post-left">
                                     <!--發言人的名字-->
-                                    <div class="post-left_title">{{name}}</div>
+                                    <div class="post-left_title">{{messageName}}</div>
                                     <!--NickName-->
                                     <div class="post-left_title_sub">{{nickName}}</div>
                                     <!--        <div class="post-left_border"></div>-->
@@ -70,12 +70,9 @@
                                             <p>{{date}} - <span>{{time}}</span></p>
                                         </div>
                                         <div class="post-right_footer_pictos">
-                                            <!--到時候改成留言按鈕-->
-                                            <!--                <i class="fa fa-heart" aria-hidden="true"></i>-->
-                                            <!--                <i class="fa fa-share-alt" aria-hidden="true"></i>-->
                                             <button type="button" class="leave-message-button" :id="buttonId"
                                                     data-toggle="collapse" :data-target="'#' + collapseId" :aria-controls="collapseId">
-                                                <span>Leave Message</span>
+                                                <span>Comments({{commentCount}})</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48"> <g class="nc-icon-wrapper" fill="#444444"> <path d="M14.83 30.83L24 21.66l9.17 9.17L36 28 24 16 12 28z"></path> </g> </svg>
                                             </button>
                                         </div>
@@ -85,9 +82,16 @@
                         </section>
                     </main>
                     <nav :id="collapseId" class="collapse" :aria-labelledby="headingId" >
-                        <template v-for="(item, index) in commentObj">
-                            <vue-comment-card v-bind="item"></vue-comment-card>
-                        </template>
+                        <vue-comment-card v-for="(item, index) in commentObj" :key="item.commentId"
+                                          :content="item.content"
+                                          :time="item.time"
+                                          :commentId="item.commentId"
+                                          :commentName="item.commentName"
+                                          :colorNumber="item.colorNumber"
+                                          :loginUserName="loginUserName"
+                                          :lastElement="false">
+                        </vue-comment-card>
+                        <vue-comment-card :loginUserName="loginUserName" :lastElement="true"></vue-comment-card>
                     </nav>
                 </div>
                 <br><br>
@@ -98,19 +102,38 @@
 
     <th:block th:fragment="vue-comment-card">
         <script id="vue-comment-card-template" th:inline="javascript" type="text/x-template">
-            <a href="#" class="card-body" @click.prevent="">
-                <div class="icon" :class="getColorIndex">
-                    <div v-html="getImageLetter"></div>
-                </div>
+            <a href="#" class="card-body" :class="lastElement ? 'last-comment':''" @click.prevent="">
+                <template v-if="!lastElement">
+                    <div class="icon" :class="getColorIndex">
+                        <div v-html="getSVGByCase('view-comment')"></div>
+                    </div>
 
-                <div class="content">
-                    <h1 :class="getColorIndex">{{name}}</h1>
-                    <span>{{content}}</span>
-                </div>
+                    <div class="content">
+                        <h1 :class="getColorIndex">{{commentName}}</h1>
+                        <span>{{content}}</span>
+                    </div>
 
-                <span class="time" :class="getColorIndex">
-                    {{time}}
-                </span>
+                    <span class="time" :class="getColorIndex">
+                        {{time}}
+                    </span>
+                </template>
+                <template v-else>
+                    <!--最後一個 留言用-->
+                    <div class="icon color-for-leave-comment" >
+                        <div v-html="getSVGByCase('leave-comment')"></div>
+                    </div>
+
+                    <div class="content">
+                        <h1 class="color-for-leave-comment">{{loginUserName}}</h1>
+                        <vue-text-area :usedWithScrollBarOnY="true"></vue-text-area>
+                    </div>
+
+                    <div>
+                        <button type="button" @click="leaveComment" class="btn btn-secondary btn-lg">
+                            <span>Leave comment</span>
+                        </button>
+                    </div>
+                </template>
             </a>
         </script>
         <script th:src="@{/model/component/commentCard.js}"></script>

@@ -5,28 +5,47 @@ Vue.component(
     baseVueWithoutEl.extend({
         template: '#vue-comment-card-template',
         props: {
-            name: {
-                type: String,
-                required: true
+            /** 留言Id */
+            commentId: {
+                type: Number,
+                required: false
             },
+            /** 留言者名稱 */
+            commentName: {
+                type: String,
+                required: false
+            },
+            /** 留言時間 */
             time: {
                 type: String,
-                required: true
+                required: false
             },
+            /** 留言內容 */
             content: {
+                type: String,
+                required: false
+            },
+            /** 顯示號碼 */
+            colorNumber: {
+                type: Number,
+                required: false
+            },
+            /** 登入者名稱 */
+            loginUserName: {
                 type: String,
                 required: true
             },
-            colorNumber: {
-                type: Number,
+            /** 是否為最後一個comment Card */
+            lastElement: {
+                type: Boolean,
                 required: true
             }
         },
         computed: {
             getImageLetter: function() {
                 let self = this;
-                if( self.name !== null && self.name.length > 0 ){
-                    return self.getSVGByLetter(self.name.charAt(0))
+                if( self.commentName !== null && self.commentName.length > 0 ){
+                    return self.getSVGByCase(self.commentName.charAt(0))
                 }
 
                 return null;
@@ -37,9 +56,32 @@ Vue.component(
             }
         },
         methods: {
-            getSVGByLetter: function(letter){
+            /**
+             * Store the comment to database and show immediately in browser
+             */
+            leaveComment: function() {
+                let self = this;
+                console.log("leaveComment");
+            },
+            /**
+             * return user name first letter with <svg>
+             * default: return svg of 'A'
+             * @param commentCardCase: leave-comment or view-comment
+             * @return {*}
+             */
+            getSVGByCase: function(commentCardCase){
                 const self = this;
-                const upperLetter = letter.toUpperCase();
+                let upperLetter = "A";
+                if( commentCardCase === "view-comment" ){
+                    if( self.commentName !== null && self.commentName.length > 0 ){
+                        upperLetter = self.commentName.charAt(0);
+                    }
+                } else if ( commentCardCase === 'leave-comment'){
+                    if( self.loginUserName !== null && self.loginUserName.length > 0 ){
+                        upperLetter = self.loginUserName.charAt(0);
+                    }
+                }
+
                 return self.returnLetter(upperLetter);
             },
             returnLetter: function(letter) {

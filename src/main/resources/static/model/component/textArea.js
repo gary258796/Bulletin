@@ -4,11 +4,20 @@ Vue.component(
     'vue-text-area',
     baseVueWithoutEl.extend({
         template: '#vue-text-area-template',
+        props: {
+           /** indicate if this text-area will use scroll bar on Y */
+           usedWithScrollBarOnY: {
+               type: Boolean,
+               required: false
+           }
+        },
         mounted: function (){
             const self = this;
-            let autoExpandElement = document.getElementsByClassName("autoExpand");
-            for(let i = 0 ; i < autoExpandElement.length; i++){
-                autoExpandElement[i].addEventListener('input', self.onExpandableTextareaInput);
+            if( self.usedWithScrollBarOnY !== null && !self.usedWithScrollBarOnY ) { // Add auto expand calculated
+                let autoExpandElement = document.getElementsByClassName("autoExpand");
+                for(let i = 0 ; i < autoExpandElement.length; i++){
+                    autoExpandElement[i].addEventListener('input', self.onExpandableTextareaInput);
+                }
             }
         },
         methods: {

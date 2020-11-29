@@ -238,7 +238,7 @@
 }
 
 .contact nav.show {
-    max-height: 600px;
+    max-height: fit-content;
     -webkit-transition: all 1s;
     -moz-transition: all 1s;
     -o-transition: all 1s;
@@ -346,6 +346,10 @@
     background-color: #3b5998;
 }
 
+.contact nav a .icon.color-for-leave-comment svg {
+    background-color: #333333;
+}
+
 /* 下方留言的人 顏色 */
 .contact nav a .content h1.color-class-1 {
     color: #d14836;
@@ -355,6 +359,10 @@
     color: #3b5998;
 }
 
+.contact nav a .content h1.color-for-leave-comment {
+    color: #333333;
+}
+
 /* 下方留言時間*/
 .contact nav a .time.color-class-1 {
     color: #d14836;
@@ -362,4 +370,17 @@
 
 .contact nav a .time.color-class-2 {
     color: #3b5998;
+}
+
+.contact nav .content textarea {
+    width: 640px;
+    margin: 0px;
+}
+
+.contact nav a.last-comment button {
+    float: right;
+}
+
+.contact nav a.last-comment {
+    height: 220px;
 }

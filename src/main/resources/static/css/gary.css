@@ -15,3 +15,8 @@
     max-width: 330px;
     margin: auto;
 }
+
+/* comment-card裡面的textArea垂直部分超過要用scroll而非自動擴增*/
+.contact nav a.last-comment textarea {
+    overflow-y:scroll
+}
