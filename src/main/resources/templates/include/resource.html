@@ -23,12 +23,17 @@
     <script th:src="@{/model/config.js}"></script>
 
     <script th:inline="javascript">
-        var baseVue = Config.init(1, {
-            apiBaseUrl: [[${@environment.getProperty("api.url")}]]
-        });
-        var baseVueWithoutEl = Config.init(2, {
-            apiBaseUrl: [[${@environment.getProperty("api.url")}]]
-        });
+        let loginUserName = null ;
+        /*[# sec:authorize="isAuthenticated()"]*/
+        loginUserName = /*[[${#authentication.principal.userName}]]*/ 'admin'
+        /*[/]*/
+
+        let initBaseProps = {
+            apiBaseUrl: [[${@environment.getProperty("api.url")}]],
+            loginUserName: loginUserName
+        }
+        let baseVue = Config.init(1, initBaseProps);
+        let baseVueWithoutEl = Config.init(2, initBaseProps);
     </script>
 </th:block>
 
