@@ -8,22 +8,94 @@
     <title th:text="#{message.home.title}">Home Page</title>
 </head>
 
+<th:block layout:fragment="banner">
+    <div class="svg-container">
+        <!-- I crated SVG with: https://codepen.io/anthonydugois/pen/mewdyZ -->
+        <svg viewbox="0 0 800 400" class="svg">
+            <path id="curve" fill="#50c6d8" d="M 800 300 Q 400 350 0 300 L 0 0 L 800 0 L 800 300 Z">
+            </path>
+        </svg>
+    </div>
+</th:block>
+
 <th:block layout:fragment="body">
+    <header>
+        <div class="padding-top">
+            <h1>Gary Bulletin</h1>
+            <h3>Share something with others.</h3><br>
+            <vue-text-area></vue-text-area>
+            <button type="button" class="btn btn-lg btn-primary btn-block">
+                <span th:text="#{message.message.send}">Send Message!</span>
+            </button>
+        </div>
+    </header>
 
-    <h1 th:text="#{message.welcome.hello}"></h1>
+    <main>
+        <div class="accordion margin-auto" id="accordionExample" style="padding-left: 369px">
+            <template v-for="(item,index) in tempObject">
+                <vue-message-card v-bind="item"></vue-message-card>
+            </template>
+        </div>
+    </main>
 
-    This is home page .
+</th:block>
 
+<th:block layout:fragment="footer">
+    <footer>
+        <p>And, the footer.</p>
+        <small>🕷 Wish you luck, <a href="http://armantaherian.com">Arman</a>.</small>
+    </footer>
 </th:block>
 
 
 <th:block layout:fragment="js">
-    <script
-            th:src="@{/model/home/home.js}"></script>
-    <script
-            th:inline="javascript">
+    <th:block th:insert="include/common :: textArea"></th:block>
+    <th:block th:insert="include/common :: vue-message-card-and-comment-card"></th:block>
+    <script th:src="@{/model/home/home.js}"></script>
+    <script th:inline="javascript">
+        // related to the background , reference from codeMyUi
+        (function() {
+            // Variables
+            var $curve = document.getElementById("curve");
+            var last_known_scroll_position = 0;
+            var defaultCurveValue = 350;
+            var curveRate = 3;
+            var ticking = false;
+            var curveValue;
+
+            // Handle the functionality
+            function scrollEvent(scrollPos) {
+                if (scrollPos >= 0 && scrollPos < defaultCurveValue) {
+                    curveValue = defaultCurveValue - parseFloat(scrollPos / curveRate);
+                    $curve.setAttribute(
+                        "d",
+                        "M 800 300 Q 400 " + curveValue + " 0 300 L 0 0 L 800 0 L 800 300 Z"
+                    );
+                }
+            }
+
+            // Scroll Listener
+            // https://developer.mozilla.org/en-US/docs/Web/Events/scroll
+            window.addEventListener("scroll", function(e) {
+                last_known_scroll_position = window.scrollY;
+
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        scrollEvent(last_known_scroll_position);
+                        ticking = false;
+                    });
+                }
+
+                ticking = true;
+            });
+        })();
         let app = new App();
     </script>
+</th:block>
+
+<th:block layout:fragment="css">
+    <!-- Home.css included all other css under same folder -->
+    <link rel="stylesheet" th:href="@{/css/homepage/home.css}">
 </th:block>
 </html>
 

@@ -59,10 +59,6 @@ Vue.component(
             buttonId: {
                 type: String,
                 required: true
-            },
-            /** 現在登入的使用者名稱 */
-            loginUserName: {
-                type: String
             }
         },
         computed: {

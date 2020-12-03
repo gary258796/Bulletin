@@ -50,8 +50,8 @@
 
 .post-right {
     width: 60%;
-    background-color: #FEFEFE;
-    color: #484855;
+    background-color: blanchedalmond;
+    color: black;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -104,7 +104,7 @@
     width: 16px;
     height: 16px;
     border-radius: 16px;
-    background-color: #E6E5E1;
+    background-color: blueviolet;
 }
 
 .post:after {
@@ -117,7 +117,7 @@
     width: 16px;
     height: 16px;
     border-radius: 16px;
-    background-color: #E6E5E1;
+    background-color: blueviolet;
 }
 
 .shadow {
@@ -381,6 +381,6 @@
     float: right;
 }
 
-.contact nav a.last-comment {
-    height: 220px;
-}
+/*.contact nav a.last-comment {*/
+/*    height: 220px;*/
+/*}*/

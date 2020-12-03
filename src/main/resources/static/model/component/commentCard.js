@@ -30,11 +30,6 @@ Vue.component(
                 type: Number,
                 required: false
             },
-            /** 登入者名稱 */
-            loginUserName: {
-                type: String,
-                required: true
-            },
             /** 是否為最後一個comment Card */
             lastElement: {
                 type: Boolean,

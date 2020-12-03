@@ -37,7 +37,9 @@
         <script th:src="@{/model/component/textArea.js}"></script>
     </th:block>
 
-    <th:block th:fragment="vue-message-card">
+    <!-- Message card include comment card , cause we must always need comment card in message card -->
+    <th:block th:fragment="vue-message-card-and-comment-card">
+        <th:block th:insert=":: vue-comment-card"></th:block>
         <script id="vue-message-card-template" th:inline="javascript" type="text/x-template">
             <div class="contact-area">
                 <div class="contact card">
@@ -88,10 +90,9 @@
                                           :commentId="item.commentId"
                                           :commentName="item.commentName"
                                           :colorNumber="item.colorNumber"
-                                          :loginUserName="loginUserName"
                                           :lastElement="false">
                         </vue-comment-card>
-                        <vue-comment-card :loginUserName="loginUserName" :lastElement="true"></vue-comment-card>
+                        <vue-comment-card :lastElement="true"></vue-comment-card>
                     </nav>
                 </div>
                 <br><br>
@@ -100,6 +101,7 @@
         <script th:src="@{/model/component/messageCard.js}"></script>
     </th:block>
 
+    <!-- Comment card    -->
     <th:block th:fragment="vue-comment-card">
         <script id="vue-comment-card-template" th:inline="javascript" type="text/x-template">
             <a href="#" class="card-body" :class="lastElement ? 'last-comment':''" @click.prevent="">
