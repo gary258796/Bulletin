@@ -11,16 +11,25 @@ Vue.component(
                required: false
            }
         },
+        data: function () {
+            return {
+                textAreaData: ""
+            }
+        },
         mounted: function (){
-            const self = this;
+            const self = this ;
+            // set auto expand only if component is told
             if( self.usedWithScrollBarOnY !== null && !self.usedWithScrollBarOnY ) { // Add auto expand calculated
-                let autoExpandElement = document.getElementsByClassName("autoExpand");
-                for(let i = 0 ; i < autoExpandElement.length; i++){
-                    autoExpandElement[i].addEventListener('input', self.onExpandableTextareaInput);
-                }
+                let currentElement = self.$el;
+                currentElement.addEventListener('input', self.onExpandableTextareaInput);
             }
         },
         methods: {
+            /** send emit to father component to trace data of text area*/
+            changeTextData: function(value) {
+                this.$emit('text-area-changed', value);
+            },
+            /** Below are two function for auto expandable */
             onExpandableTextareaInput : function ({ target:elm }){
                 const self = this ;
                 // make sure the input event originated from a textarea and it's desired to be auto-expandable

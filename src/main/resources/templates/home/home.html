@@ -23,8 +23,8 @@
         <div class="padding-top">
             <h1>Gary Bulletin</h1>
             <h3>Share something with others.</h3><br>
-            <vue-text-area></vue-text-area>
-            <button type="button" class="btn btn-lg btn-primary btn-block">
+            <vue-text-area @text-area-changed="changeTextAreaData"></vue-text-area>
+            <button type="button" @click="sendMessage" class="btn btn-lg btn-primary btn-block">
                 <span th:text="#{message.message.send}">Send Message!</span>
             </button>
         </div>

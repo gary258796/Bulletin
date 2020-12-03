@@ -36,6 +36,12 @@ Vue.component(
                 required: true
             }
         },
+        data: function () {
+            return {
+                /** 存取留言內容用 */
+                textAreaData: ""
+            }
+        },
         computed: {
             getImageLetter: function() {
                 let self = this;
@@ -56,7 +62,12 @@ Vue.component(
              */
             leaveComment: function() {
                 let self = this;
-                console.log("leaveComment");
+                console.log(self.textAreaData);
+            },
+            /** update data return from text-area component */
+            changeTextAreaData: function(value) {
+                let self = this ;
+                self.textAreaData = value;
             },
             /**
              * return user name first letter with <svg>

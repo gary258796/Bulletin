@@ -3,6 +3,7 @@
 let App = baseVue.extend({
     data: function(){
         return {
+            textAreaData: "",
             tempObject: [{
                 messageId: 12,
                 messageName: "Gary Liao",
@@ -71,5 +72,14 @@ let App = baseVue.extend({
     watch: {
     },
     methods: {
+        /** update data return from text-area component */
+        changeTextAreaData: function(value) {
+            let self = this ;
+            self.textAreaData = value;
+        },
+        /** send message to server */
+        sendMessage: function() {
+
+        }
     }
 });
