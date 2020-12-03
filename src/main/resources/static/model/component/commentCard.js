@@ -25,9 +25,9 @@ Vue.component(
                 type: String,
                 required: false
             },
-            /** 顯示號碼 */
-            colorNumber: {
-                type: Number,
+            /** True : Even */
+            colorBoolean: {
+                type: Boolean,
                 required: false
             },
             /** 是否為最後一個comment Card */
@@ -53,7 +53,7 @@ Vue.component(
             },
             getColorIndex: function() {
                 let self = this;
-                return self.getColorIndexByNumber(self.colorNumber);
+                return self.getColorIndexByBoolean(self.colorBoolean);
             }
         },
         methods: {
@@ -120,14 +120,11 @@ Vue.component(
                 letterMap.set('Z', "<svg width=\"16.062\" height=\"16.16\" viewBox=\"0 0 16.062 23.16\" xmlns=\"http://www.w3.org/2000/svg\"><g id=\"svgGroup\" stroke-linecap=\"round\" fill-rule=\"evenodd\" font-size=\"9pt\" stroke=\"#000\" stroke-width=\"0.25mm\" fill=\"none\" style=\"stroke:#000;stroke-width:0.25mm;fill:none\"><path d=\"M 14.982 20.76 Q 14.952 21.39 14.817 21.975 A 6.175 6.175 0 0 1 14.539 22.861 A 7.121 7.121 0 0 1 14.412 23.16 Q 10.902 23.13 7.107 22.83 A 92.512 92.512 0 0 1 2.557 22.361 A 76.099 76.099 0 0 1 0.012 21.99 Q -0.018 21.51 0.027 21 A 8.752 8.752 0 0 1 0.083 20.513 A 6.724 6.724 0 0 1 0.162 20.07 A 163.609 163.609 0 0 0 4.15 15.753 Q 6.248 13.395 7.977 11.235 A 73.289 73.289 0 0 0 10.581 7.79 Q 11.719 6.183 12.63 4.68 A 41.559 41.559 0 0 0 13.212 3.69 A 212.673 212.673 0 0 1 10.22 3.379 A 174.623 174.623 0 0 1 7.422 3.045 Q 4.722 2.7 2.022 2.22 Q 2.052 1.59 2.202 1.05 A 3.728 3.728 0 0 1 2.583 0.16 A 4.289 4.289 0 0 1 2.682 0 Q 5.412 0.57 8.247 1.05 Q 10.418 1.418 13.845 1.926 A 624.679 624.679 0 0 0 16.062 2.25 A 6.125 6.125 0 0 1 16.042 2.433 Q 16.017 2.64 15.972 2.922 A 25.268 25.268 0 0 1 15.927 3.195 A 18.446 18.446 0 0 1 15.889 3.409 Q 15.811 3.838 15.762 3.96 A 76.823 76.823 0 0 1 12.52 8.619 A 95.519 95.519 0 0 1 10.107 11.7 A 139.526 139.526 0 0 1 7.021 15.346 Q 5.418 17.179 3.593 19.156 A 233.243 233.243 0 0 1 2.352 20.49 A 91.17 91.17 0 0 0 7.912 20.865 A 81.698 81.698 0 0 0 8.907 20.895 Q 11.926 20.967 14.713 20.779 A 56.574 56.574 0 0 0 14.982 20.76 Z\" vector-effect=\"non-scaling-stroke\"/></g></svg>");
                 return letterMap.get(letter);
             },
-            getColorIndexByNumber: function(colorNumber) {
-                if( colorNumber === 1 )
+            getColorIndexByBoolean: function(colorBoolean) {
+                if(colorBoolean)
                     return "color-class-1";
-                else if(colorNumber === 2 )
-                    return "color-class-2";
                 else
-                    return "color-class-1";
-                // TODO: 之後可以補上更多顏色
+                    return "color-class-2";
             }
         }
     })

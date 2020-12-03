@@ -82,6 +82,14 @@ Vue.component(
                 });
             });
         },
-        methods: {}
+        methods: {
+            /** return true when value is even */
+            even: function(value) {
+                if( value % 2 === 0 )
+                    return true ;
+
+                return false ;
+            },
+        }
     })
 );
