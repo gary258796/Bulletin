@@ -68,3 +68,9 @@ small {
 small a {
     color: inherit;
 }
+
+.style-for-message-card {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}

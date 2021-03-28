@@ -32,7 +32,7 @@
 
     <th:block th:fragment="textArea">
         <script id="vue-text-area-template" th:inline="javascript" type="text/x-template">
-            <textarea class='autoExpand text-area' rows='3' data-min-rows='3' v-model="textAreaData"
+            <textarea class='autoExpand text-area style-for-message-card' rows='3' data-min-rows='3' v-model="textAreaData"
                       @input="changeTextData($event.target.value)" th:placeholder='#{message.write.sth}' autofocus></textarea>
         </script>
         <script th:src="@{/model/component/textArea.js}"></script>
