@@ -4,7 +4,7 @@ let App = baseVue.extend({
     data: function(){
         return {
             textAreaData: "",
-            tempObject: [{
+            messageCardData: [{
                 messageId: 12,
                 messageName: "Gary Liao",
                 nickName: "garySukk",
