@@ -37,8 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
      * 可在這開放靜態資源訪問
-     * @param web
-     * @throws Exception
+     * @param web:
      */
     @Override
     public void configure(WebSecurity web){
@@ -50,15 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      * 而AuthenticationManager會依照我們驗證方式去決定要呼叫哪個AuthenticationProvider去處理
      *
      * 也可用來設定 inMemory Authentication 之帳號密碼角色, 提供最初的帳號登入測試
-     * @param auth
-     * @throws Exception
+     * @param auth:
      */
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
+    protected void configure(AuthenticationManagerBuilder auth) {
+        // 設定提供權限認證的bean(class)
         auth.authenticationProvider(authProvider());
-
-        // 也可以在這邊存取DB, 並且比對登入資訊, 之後會繼續實作
     }
 
     @Override
@@ -75,8 +71,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .loginPage("/login")       // 指定客製的登入PAGE URL
             .loginProcessingUrl("/login")   // 登入過程獲取登入訊息的Class, 利用post這個url去觸發Spring security幫我們驗證登入者
             .successHandler(authenticationSuccessHandler) // will redirect to home page here
-//            .defaultSuccessUrl("/home")     // 登入成功之後導到此頁面  Don't know why authenticationSuccessHandler not working correctly if added
-//            .failureUrl("/login?error=true") // 登入失敗, 導到此頁面  Don't know why authenticationFailureHandler not working correctly if added
             .failureHandler(authenticationFailureHandler)   // 登入失敗處理器, 在裡面設定失敗要導到哪個url
             .permitAll()
             .and()
@@ -99,8 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider authProvider() {
         final CustomAuthenticationProvider authProvider = new CustomAuthenticationProvider();
         authProvider.setHideUserNotFoundExceptions(false);
-        authProvider.setPasswordEncoder(passwordEncoder());
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());     // Used BCrypt now
+        authProvider.setUserDetailsService(userDetailsService); // MyUserDetailsService, customize provider in our program
         return authProvider;
     }
 

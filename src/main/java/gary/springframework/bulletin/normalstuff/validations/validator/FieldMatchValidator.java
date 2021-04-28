@@ -2,10 +2,12 @@ package gary.springframework.bulletin.normalstuff.validations.validator;
 
 import gary.springframework.bulletin.normalstuff.validations.FieldMatch;
 import org.apache.commons.beanutils.BeanUtils;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * Annotation @FieldMatch will call this validator to help validate are fields matched or not
+ */
 public class FieldMatchValidator
         implements ConstraintValidator<FieldMatch, Object> {
 
@@ -23,18 +25,20 @@ public class FieldMatchValidator
     @Override
     public boolean isValid(Object obj, ConstraintValidatorContext context){
 
-        Boolean valid = true;
+        // default set field matched, valid = true
+        boolean valid = true;
 
         try {
+            // get two fields content
             final Object firstObj = BeanUtils.getProperty(obj, firstFieldName);
             final Object secondObj = BeanUtils.getProperty(obj, secondFieldName);
-
+            // if not same , set valid as false
             valid = (firstObj == null && secondObj == null) || (firstObj != null && firstObj.equals(secondObj));
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // 如果valid為false, 重新定義默認的錯誤訊息模板
+        // if valid == false , re-defined returned message
         if( !valid ){
             context.buildConstraintViolationWithTemplate(message)
                     .addPropertyNode(firstFieldName) // 指定是哪個欄位要報錯
