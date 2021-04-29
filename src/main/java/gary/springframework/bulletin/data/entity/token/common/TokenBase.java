@@ -1,5 +1,7 @@
 package gary.springframework.bulletin.data.entity.token.common;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -10,6 +12,7 @@ import java.util.Date;
 // * 因為 @MappedSuperclass 註解的關西所以本身不會被實體化成一張表格
 // * 但是繼承的class如果標上Entity還是會把包含的欄位一起生成表格
 // */
+@Data
 @MappedSuperclass
 public class TokenBase implements Serializable {
 
