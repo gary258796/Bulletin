@@ -64,7 +64,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if( isUser ){
             String username;
             if( authentication.getPrincipal() instanceof User )
-                username = ( (User)authentication.getPrincipal() ).getUserName();
+                username = ( (User)authentication.getPrincipal() ).getUserCode();
             else
                 username = authentication.getName();
 

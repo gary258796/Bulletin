@@ -3,26 +3,32 @@ package gary.springframework.bulletin.security;
 import gary.springframework.bulletin.data.entity.Privilege;
 import gary.springframework.bulletin.data.entity.Role;
 import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.web.repositories.RolePrivilegeRepository;
 import gary.springframework.bulletin.web.repositories.UserRepository;
+import gary.springframework.bulletin.web.repositories.UserRolesRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("userDetailsService")
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
+    private final RolePrivilegeRepository rolePrivilegeRepository;
+    private final UserRolesRepository userRolesRepository;
     private final UserRepository userRepository;
 
-    public MyUserDetailsService(UserRepository userRepository) {
+    public MyUserDetailsService(RolePrivilegeRepository rolePrivilegeRepository, UserRolesRepository userRolesRepository, UserRepository userRepository) {
+        this.rolePrivilegeRepository = rolePrivilegeRepository;
+        this.userRolesRepository = userRolesRepository;
         this.userRepository = userRepository;
     }
 
@@ -41,9 +47,9 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("No user found with userName: " + username );
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
-                user.getEnabled(), true, true, true,
-                getAuthorities(user.getRoles()) );
+        return new org.springframework.security.core.userdetails.User(user.getUserCode(), user.getUserPassword(),
+                user.getUserEnabled(), true, true, true,
+                getAuthorities(userRolesRepository.getRolesByUserId(user.getId())));
     }
 
     // methods
@@ -62,14 +68,11 @@ public class MyUserDetailsService implements UserDetailsService {
      * @return
      */
     private List<String> getPrivileges(final Collection<Role> roles ) {
-        List<String> privileges = new ArrayList<>();
-        List<Privilege> collections = new ArrayList<>();
-        for( Role role: roles )
-            collections.addAll(role.getPrivileges());
-        for( Privilege privilege: collections )
-            privileges.add(privilege.getPrivilegeName());
+        List<Privilege> privileges = rolePrivilegeRepository.getPrivilegeOfRoles(roles);
 
-        return privileges;
+        return privileges.stream()
+                         .map(Privilege::getPrivilegeName)
+                         .collect(Collectors.toList());
     }
 
     /**
