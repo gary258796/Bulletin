@@ -28,7 +28,7 @@ public class ResetPasswordTokenServiceImpl implements ResetPasswordTokenService 
     @Override
     public ResetPasswordToken createPasswordResetTokenForUser(User user) {
         String token = UUID.randomUUID().toString();
-        ResetPasswordToken pwdToken = new ResetPasswordToken(token, user);
+        ResetPasswordToken pwdToken = new ResetPasswordToken(token, user.getId());
         return resetPasswordTokenRepository.save(pwdToken);
     }
 
@@ -61,9 +61,7 @@ public class ResetPasswordTokenServiceImpl implements ResetPasswordTokenService 
 
     @Override
     public Set<ResetPasswordToken> findAll() {
-        Set<ResetPasswordToken> resetPasswordTokens = new HashSet<>();
-        resetPasswordTokenRepository.findAll().forEach(resetPasswordTokens::add);
-        return resetPasswordTokens;
+        return new HashSet<>(resetPasswordTokenRepository.findAll());
     }
 
     @Override
