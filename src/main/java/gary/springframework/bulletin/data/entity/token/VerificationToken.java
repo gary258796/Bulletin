@@ -1,19 +1,20 @@
-package gary.springframework.bulletin.data.entity;
+package gary.springframework.bulletin.data.entity.token;
 
-import lombok.*;
+import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.data.entity.token.common.TokenBase;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
 @Table(name = "VERIFICATION_TOKEN")
-public class VerificationToken implements Serializable {
-
-    /*時效設定為一天*/
-    private final int EXPIRATION = 60 * 24 ;
+public class VerificationToken extends TokenBase implements Serializable {
 
     public VerificationToken(final String token) {
         super();
@@ -42,21 +43,8 @@ public class VerificationToken implements Serializable {
     @Column(name = "USER_ID")
     private int userID;
 
-
-    public void updateToken(final String token) {
-        this.token = token;
-        this.expiryDate = calculateExpiryDate(EXPIRATION);
-    }
-
-    /**
-     * 加上現在時將往後一天的期限
-     * @param expiryTimeInMinutes
-     * @return
-     */
-    private Date calculateExpiryDate(int expiryTimeInMinutes){
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(new Date().getTime()); // current time
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes); // add expiryTime
-        return new Date(cal.getTime().getTime());
-    }
+//    public void updateToken(final String token) {
+//        this.token = token;
+//        this.expiryDate = calculateExpiryDate(EXPIRATION);
+//    }
 }

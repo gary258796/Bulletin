@@ -1,18 +1,17 @@
-package gary.springframework.bulletin.data.entity;
+package gary.springframework.bulletin.data.entity.token;
 
+import gary.springframework.bulletin.data.entity.token.common.TokenBase;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Calendar;
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "RESET_PASSWORD_TOKEN")
-public class ResetPasswordToken implements Serializable {
-
-    /** 過期期限 - 兩小時 */
-    private static final int EXPIRATION = 60 * 2 ;
+public class ResetPasswordToken extends TokenBase implements Serializable {
 
     public ResetPasswordToken() {}
 
@@ -39,13 +38,6 @@ public class ResetPasswordToken implements Serializable {
     @Column(name = "EXPIRY_DATE")
     private Date expiryDate;
 
-    /** Methods */
-    private Date calculateExpiryDate(final int expiryTimeInMinutes) {
-        final Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(new Date().getTime());
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-        return new Date(cal.getTime().getTime());
-    }
 //
 //    public void updateToken(final String token) {
 //        this.token = token;

@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.data.entity.User;
-import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.data.entity.token.VerificationToken;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 import gary.springframework.bulletin.data.model.response.GenericResponse;
 import gary.springframework.bulletin.normalstuff.event.OnSendMailEvent;

@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.services.impl;
 
 import gary.springframework.bulletin.data.entity.User;
-import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.data.entity.token.VerificationToken;
 import gary.springframework.bulletin.web.repositories.VerificationTokenRepository;
 import gary.springframework.bulletin.web.services.VerificationTokenService;
 import org.springframework.stereotype.Service;

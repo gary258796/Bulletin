@@ -1,6 +1,6 @@
 package gary.springframework.bulletin.web.services.impl;
 
-import gary.springframework.bulletin.data.entity.ResetPasswordToken;
+import gary.springframework.bulletin.data.entity.token.ResetPasswordToken;
 import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.web.repositories.ResetPasswordTokenRepository;
 import gary.springframework.bulletin.web.services.ResetPasswordTokenService;

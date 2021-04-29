@@ -1,6 +1,6 @@
 package gary.springframework.bulletin.web.controllers;
 
-import gary.springframework.bulletin.data.entity.ResetPasswordToken;
+import gary.springframework.bulletin.data.entity.token.ResetPasswordToken;
 import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.data.model.response.GenericResponse;
 import gary.springframework.bulletin.normalstuff.event.OnSendMailEvent;
