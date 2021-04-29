@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 @Controller
 public class ForgetPasswordController {
 
-    private ApplicationEventPublisher applicationEventPublisher;
-    private MessageSource messageSource;
+    private final ApplicationEventPublisher applicationEventPublisher;
+    private final MessageSource messageSource;
     private final UserService userService;
     private final ResetPasswordTokenService resetPasswordTokenService;
 
