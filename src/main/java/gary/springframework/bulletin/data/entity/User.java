@@ -1,7 +1,6 @@
 package gary.springframework.bulletin.data.entity;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -25,8 +24,8 @@ public class User implements Serializable {
     private int id;
 
     /** 使用者帳號 */
-    @Column(name = "USERCODE")
-    private String userCode;
+    @Column(name = "USER_NAME")
+    private String userName;
 
     /** 使用者信箱 */
     @Column(name = "USER_EMAIL")
