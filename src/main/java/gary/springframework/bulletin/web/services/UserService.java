@@ -4,7 +4,7 @@ import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
 
-public interface UserService extends CrudService<User, Long>{
+public interface UserService extends CrudService<User, Integer>{
 
     User findByUserName(String userName);
 
