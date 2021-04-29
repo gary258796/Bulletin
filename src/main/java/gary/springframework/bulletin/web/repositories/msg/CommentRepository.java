@@ -1,4 +1,4 @@
-package gary.springframework.bulletin.web.repositories;
+package gary.springframework.bulletin.web.repositories.msg;
 
 import gary.springframework.bulletin.data.entity.msg.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
