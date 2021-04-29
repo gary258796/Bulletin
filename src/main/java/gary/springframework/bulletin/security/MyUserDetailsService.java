@@ -67,7 +67,7 @@ public class MyUserDetailsService implements UserDetailsService {
         for( Role role: roles )
             collections.addAll(role.getPrivileges());
         for( Privilege privilege: collections )
-            privileges.add(privilege.getName());
+            privileges.add(privilege.getPrivilegeName());
 
         return privileges;
     }
