@@ -1,43 +1,34 @@
 package gary.springframework.bulletin.data.entity.msg;
 
-import gary.springframework.bulletin.data.entity.BaseEntity;
-import gary.springframework.bulletin.data.entity.User;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-
+import lombok.Data;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
-import java.util.Set;
 
 /**
  * 紀錄每個人發言用
  */
-@Getter
-@Setter
 @Entity
-@EqualsAndHashCode
-@Table(name = "messages")
-public class Message extends BaseEntity {
+@Table(name = "MESSAGE")
+@Data
+public class Message implements Serializable {
 
-    /** 一個發言 會對應一個User */
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "FK_MESSAGE_USER"))
-    private User user;
+    /** 訊息ID */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "MESSAGE_ID")
+    private int messageID;
 
-    /** 發言內容 */
-    private String content;
+    /** 訊息擁有者ID */
+    @Column(name = "USER_ID")
+    private int userID;
 
-    /** 發言日期 */
-    private Date date;
+    /** 訊息內容 */
+    @Column(name = "MESSAGE_CONTENT")
+    private String messageContent;
 
-    /** 發言時間 */
-    private Time time;
-
-    /** 所有留言 */
-    @OneToMany(mappedBy = "message", fetch = FetchType.LAZY)
-    private Set<Comment> comments;
-
+    /** 訊息日期 */
+    @Column(name = "MESSAGE_DATE")
+    private Date messageDate;
 
 }
