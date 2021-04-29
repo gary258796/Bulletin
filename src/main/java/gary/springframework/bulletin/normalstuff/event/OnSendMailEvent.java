@@ -9,15 +9,15 @@ import java.util.Locale;
 @Getter
 public class OnSendMailEvent extends ApplicationEvent {
 
-    private String appUrl;
+    private final String appUrl;
 
-    private Locale locale;
+    private final Locale locale;
 
-    private User user;
+    private final User user;
 
-    private SendType sendType;
+    private final SendType sendType;
 
-    private String token;
+    private final String token;
 
     public OnSendMailEvent(String appUrl, Locale locale, User user, SendType sendType) {
         super(user);
@@ -25,6 +25,7 @@ public class OnSendMailEvent extends ApplicationEvent {
         this.locale = locale;
         this.user = user;
         this.sendType = sendType;
+        this.token = "";
     }
 
     public OnSendMailEvent(String appUrl, Locale locale, User user, SendType sendType, String token) {
