@@ -12,4 +12,6 @@ public interface RolePrivilegeRepository {
 
     List<Privilege> getPrivilegeOfRoles(Collection<Role> roles);
 
+    void savePrivilegesOfRole(Role role, Collection<Privilege> privileges);
+
 }
