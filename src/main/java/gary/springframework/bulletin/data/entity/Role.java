@@ -1,15 +1,18 @@
 package gary.springframework.bulletin.data.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "ROLE")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role implements Serializable {
-
-    public Role() {}
 
     public Role(String roleName) {
         this.roleName = roleName;
