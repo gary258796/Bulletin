@@ -1,6 +1,5 @@
 package gary.springframework.bulletin.security;
 
-import gary.springframework.bulletin.data.entity.User;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,7 +18,7 @@ import java.util.Collection;
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserService userService;
-    private RedirectStrategy redirectStategy = new DefaultRedirectStrategy();
+    private final RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Autowired
     public CustomAuthenticationSuccessHandler(UserService userService) {
@@ -38,7 +37,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             return ;
         }
 
-        redirectStategy.sendRedirect(request,response,targetUrl);
+        redirectStrategy.sendRedirect(request,response,targetUrl);
     }
 
     /**
@@ -47,37 +46,16 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
      * @return
      */
     private String determineTargetUrl( Authentication authentication) {
-        boolean isUser = false;
-        boolean isAdmin = false;
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
         // 判斷是User or Admin
-        for ( GrantedAuthority grantedAuthority : authorities ){
-            if( grantedAuthority.getAuthority().equals("READ_PRIVILEGE"))
-                isUser = true;
-            else if( grantedAuthority.getAuthority().equals("WRITE_PRIVILEGE") ){
-                isAdmin = true;
-                isUser = false;
-                break;
-            }
-        }
+        boolean isAdmin = authorities.stream().anyMatch(grantedAuthority ->
+            grantedAuthority.getAuthority().equals("WRITE_PRIVILEGE")
+        );
 
-        if( isUser ){
-            String username;
-            if( authentication.getPrincipal() instanceof User )
-                username = ( (User)authentication.getPrincipal() ).getUserName();
-            else
-                username = authentication.getName();
-
-            return "/home/home.html?user=" + username; // 回到homePage
-        }
-        else if ( isAdmin ) {
+        if( !isAdmin ) return "/home/home.html" ; // 回到homePage
+        else {
             return "/console";
         }
-        else {
-            throw new IllegalStateException();
-        }
-
     }
 
 }
