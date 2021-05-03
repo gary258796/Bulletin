@@ -1,37 +1,45 @@
 package gary.springframework.bulletin.data.entity;
 
-import lombok.*;
-
+import lombok.Data;
 import javax.persistence.*;
-import java.util.Collection;
+import java.io.Serializable;
 
 /**
  *  使用者註冊時,使用之Entity
  */
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @Entity
-@Table(name = "users")
-public class User extends BaseEntity {
-
-    private String userName;
-
-    private String email;
-
-    @Column(length = 60) // 因為是存放Bcrypt編碼過的, 產生的字串大小就是60
-    private String password;
-
-    private Boolean enabled;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable( name = "users_roles",
-                joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+@Table(name = "USER")
+public class User implements Serializable {
 
     public User() {
         super();
-        this.enabled = false ; // 一開始建立都是為FALSE,通過Email驗證之後會設定為true
+        this.userEnabled = false ; // 一開始建立都是為FALSE,通過Email驗證之後會設定為true
     }
+
+    /** 使用者ID(編號) */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
+    private int id;
+
+    /** 使用者帳號 */
+    @Column(name = "USER_NAME")
+    private String userName;
+
+    /** 使用者信箱 */
+    @Column(name = "USER_EMAIL")
+    private String userEmail;
+
+    /**
+     *  使用者密碼
+     *  因為是存放Bcrypt編碼過的, 產生的字串大小就是60
+     */
+    @Column(name = "USER_PASSWORD", length = 60)
+    private String userPassword;
+
+    /** 是否已通過驗證 */
+    @Column(name = "USER_ENABLED")
+    private Boolean userEnabled;
+
 }

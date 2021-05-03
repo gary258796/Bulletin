@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gary.springframework.bulletin.web.repositories.RolePrivilegeRepository">
+    <resultMap type="gary.springframework.bulletin.data.entity.Privilege" id="Privilege">
+        <result column="PRIVILEGE_ID" property="privilegeID" javaType="Integer"/>
+        <result column="PRIVILEGE_NAME" property="privilegeName" javaType="String"/>
+    </resultMap>
+
+    <select id="getPrivilegeOfRoles" resultMap="Privilege">
+        select *
+          from PRIVILEGE
+         where PRIVILEGE_ID in (
+            select PRIVILEGE_ID
+            from ROLE_PRIVILEGE
+            where ROLE_ID in
+            <foreach collection="roles" item="role" open="(" close=")" separator=",">
+                #{role.roleID}
+            </foreach>
+        )
+    </select>
+
+    <insert id="savePrivilegesOfRole">
+        INSERT INTO ROLE_PRIVILEGE (ROLE_ID, PRIVILEGE_ID)
+        VALUES
+        <foreach collection="privileges" item="privilege" separator=",">
+            (#{role.roleID}, #{privilege.privilegeID})
+        </foreach>
+    </insert>
+</mapper>

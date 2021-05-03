@@ -1,41 +1,39 @@
 package gary.springframework.bulletin.data.entity.msg;
 
-import gary.springframework.bulletin.data.entity.BaseEntity;
-import gary.springframework.bulletin.data.entity.User;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Time;
 
 /**
  * 紀錄每則訊息的留言內容
  */
-@Getter
-@Setter
 @Entity
-@EqualsAndHashCode
-@Table(name = "comments")
-public class Comment extends BaseEntity {
+@Table(name = "COMMENT")
+@Data
+public class Comment implements Serializable {
 
-    /** 多個留言會對應到一個發言*/
-    @ManyToOne
-    @JoinColumn(name = "message_id", nullable = false)
-    private Message message;
+    /** 留言之ID */
+    @Id
+    @Column(name = "COMMENT_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int commentID;
 
-    /** 一個留言 會對應一個User */
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id", foreignKey = @ForeignKey(name = "FK_COMMENT_USER"))
-    private User user;
+    /** 留言所屬之訊息ID */
+    @Column(name = "MESSAGE_ID")
+    private int messageID;
+
+    /** 留言所屬留言者ID */
+    @Column(name = "USER_ID")
+    private int userID;
 
     /** 留言內容 */
-    private String content;
-
-    /** 留言日期 */
-    private Date date;
+    @Column(name = "COMMENT_CONTENT")
+    private String commentContent;
 
     /** 留言時間 */
-    private Time time;
+    @Column(name = "COMMENT_DATE")
+    private Date commentDate;
+
 }

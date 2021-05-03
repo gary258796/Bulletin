@@ -1,32 +1,29 @@
 package gary.springframework.bulletin.data.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import java.util.Collection;
+import javax.persistence.*;
+import java.io.Serializable;
 
-@Setter
-@Getter
-@EqualsAndHashCode
-@NoArgsConstructor
+@Data
 @Entity
-public class Role extends BaseEntity {
+@Table(name = "ROLE")
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role implements Serializable {
 
-    private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Collection<User> users;
-
-    @ManyToMany
-    @JoinTable(name = "roles_privileges",
-                joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-                inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
-    private Collection<Privilege> privileges;
-
-    public Role(String name) {
-        this.name = name;
+    public Role(String roleName) {
+        this.roleName = roleName;
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ROLE_ID")
+    private int roleID;
+
+    @Column(name = "ROLE_NAME")
+    private String roleName;
+
 }

@@ -26,15 +26,15 @@ public class SendMailListener implements ApplicationListener<OnSendMailEvent> {
 
         switch (onSendMailEvent.getSendType()) {
             case send:
-                emailService.sendRegistrationEmail(onSendMailEvent.getUser().getEmail(), onSendMailEvent.getAppUrl(),
+                emailService.sendRegistrationEmail(onSendMailEvent.getUser().getUserEmail(), onSendMailEvent.getAppUrl(),
                         onSendMailEvent.getLocale(), onSendMailEvent.getToken());
                 break;
             case resend:
-                emailService.resendRegistrationEmail(onSendMailEvent.getUser().getEmail(), onSendMailEvent.getAppUrl(),
+                emailService.resendRegistrationEmail(onSendMailEvent.getUser().getUserEmail(), onSendMailEvent.getAppUrl(),
                         onSendMailEvent.getLocale(), onSendMailEvent.getToken());
                 break;
             case reset:
-                emailService.sendResetPasswordEmail(onSendMailEvent.getUser().getEmail(), onSendMailEvent.getAppUrl(),
+                emailService.sendResetPasswordEmail(onSendMailEvent.getUser().getUserEmail(), onSendMailEvent.getAppUrl(),
                         onSendMailEvent.getLocale(), onSendMailEvent.getToken());
                 break;
         }

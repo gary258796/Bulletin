@@ -1,38 +1,35 @@
 package gary.springframework.bulletin.web.services.impl;
 
 import gary.springframework.bulletin.data.entity.User;
-import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.data.entity.token.ResetPasswordToken;
+import gary.springframework.bulletin.data.entity.token.VerificationToken;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistException;
-import gary.springframework.bulletin.web.repositories.ResetPasswordTokenRepository;
-import gary.springframework.bulletin.web.repositories.RoleRepository;
-import gary.springframework.bulletin.web.repositories.UserRepository;
-import gary.springframework.bulletin.web.repositories.VerificationTokenRepository;
+import gary.springframework.bulletin.web.repositories.*;
 import gary.springframework.bulletin.web.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository ;
     private final RoleRepository roleRepository;
+    private final UserRolesRepository userRolesRepository;
     private final VerificationTokenRepository tokenRepository;
     private final ResetPasswordTokenRepository resetPasswordTokenRepository;
 
-    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, VerificationTokenRepository tokenRepository, ResetPasswordTokenRepository resetPasswordTokenRepository) {
+    @Autowired
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository, UserRolesRepository userRolesRepository, VerificationTokenRepository tokenRepository, ResetPasswordTokenRepository resetPasswordTokenRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.userRolesRepository = userRolesRepository;
         this.tokenRepository = tokenRepository;
         this.resetPasswordTokenRepository = resetPasswordTokenRepository;
     }
@@ -46,12 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByUserEmail(email);
     }
 
     @Override
     public User findByUserNameAndEmail(String userName, String email) {
-        return userRepository.findByUserNameAndEmail(userName, email);
+        return userRepository.findByUserNameAndUserEmail(userName, email);
     }
 
     @Override
@@ -59,7 +56,10 @@ public class UserServiceImpl implements UserService {
 
         VerificationToken verificationToken = tokenRepository.findByToken(token);
 
-        if( verificationToken != null ) return verificationToken.getUser();
+        if( verificationToken != null ) {
+            Optional<User> user = userRepository.findById(verificationToken.getId());
+            return user.orElse(null);
+        }
 
         return null;
     }
@@ -82,22 +82,28 @@ public class UserServiceImpl implements UserService {
 
         // no problem , register user
         User user = new User();
-        user.setEmail( userRegistDto.getEmail() );
+        user.setUserEmail( userRegistDto.getEmail() );
         user.setUserName( userRegistDto.getUserName() );
-        user.setPassword( passwordEncoder.encode(userRegistDto.getPassword()) );
-        user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+        user.setUserPassword( passwordEncoder.encode(userRegistDto.getPassword()) );
+        save(user);
+        userRolesRepository.storeUserRoles(user, Collections.singletonList(roleRepository.findByRoleName("ROLE_USER")));
 
-        return save(user);
+        return user;
     }
 
     @Override
     public User getUserByResetPasswordToken(String resetToken) {
-        return resetPasswordTokenRepository.findByToken(resetToken).getUser();
+
+        ResetPasswordToken resetPasswordToken = resetPasswordTokenRepository.findByToken(resetToken);
+
+        Optional<User> user = userRepository.findById(resetPasswordToken.getUserID());
+
+        return user.orElse(null);
     }
 
     @Override
     public void changeUserPassword(User user, String newPassword) {
-        user.setPassword( passwordEncoder.encode(newPassword) );
+        user.setUserPassword( passwordEncoder.encode(newPassword) );
         userRepository.save(user);
     }
 
@@ -121,8 +127,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long aLong) {
-        return userRepository.findById(aLong).orElse(null);
+    public User findById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -136,7 +142,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteById(Long aLong) {
-        userRepository.deleteById(aLong);
+    public void deleteById(Integer id) {
+        userRepository.deleteById(id);
     }
+
 }

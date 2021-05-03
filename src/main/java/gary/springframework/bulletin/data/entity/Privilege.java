@@ -1,25 +1,21 @@
 package gary.springframework.bulletin.data.entity;
 
-import lombok.*;
+import lombok.Data;
+import javax.persistence.*;
+import java.io.Serializable;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import java.util.Collection;
-
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-@NoArgsConstructor
+@Data
 @Entity
-public class Privilege extends BaseEntity{
+@Table(name = "PRIVILEGE")
+public class Privilege implements Serializable {
 
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "PRIVILEGE_ID")
+    private int privilegeID;
 
-    @ManyToMany(mappedBy = "privileges")
-    private Collection<Role> roles;
+    /** 權限名稱 */
+    @Column(name = "PRIVILEGE_NAME")
+    private String privilegeName;
 
-    public Privilege(String name) {
-        this.name = name;
-    }
 }

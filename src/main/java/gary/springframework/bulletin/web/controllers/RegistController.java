@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.controllers;
 
 import gary.springframework.bulletin.data.entity.User;
-import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.data.entity.token.VerificationToken;
 import gary.springframework.bulletin.data.model.dto.UserRegistDto;
 import gary.springframework.bulletin.data.model.response.GenericResponse;
 import gary.springframework.bulletin.normalstuff.event.OnSendMailEvent;
@@ -9,14 +9,12 @@ import gary.springframework.bulletin.normalstuff.exception.UserAlreadyExistExcep
 import gary.springframework.bulletin.normalstuff.util.Mail.SendType;
 import gary.springframework.bulletin.web.services.UserService;
 import gary.springframework.bulletin.web.services.VerificationTokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
@@ -30,17 +28,15 @@ import java.util.UUID;
 @RequestMapping("/regist")
 public class RegistController {
 
-    @Autowired
-    private ApplicationEventPublisher applicationEventPublisher;
-
-    @Autowired
-    private MessageSource messageSource;
-
+    private final ApplicationEventPublisher applicationEventPublisher;
+    private final MessageSource messageSource;
     private final UserService userService;
     private final VerificationTokenService verificationTokenService;
 
-    public RegistController(UserService userService, VerificationTokenService verificationTokenService) {
+    public RegistController(ApplicationEventPublisher applicationEventPublisher, MessageSource messageSource, UserService userService, VerificationTokenService verificationTokenService) {
         super();
+        this.applicationEventPublisher = applicationEventPublisher;
+        this.messageSource = messageSource;
         this.userService = userService;
         this.verificationTokenService = verificationTokenService;
     }
@@ -101,7 +97,8 @@ public class RegistController {
             return "/regist/invalidToken";
         }
 
-        User user = verificationToken.getUser();
+        // get User of verification token with token's id
+        User user = userService.findById(verificationToken.getId());
         Calendar currentTime = Calendar.getInstance();
 
         // if token expired
@@ -115,7 +112,7 @@ public class RegistController {
         }
 
         // all ok , enabled user
-        user.setEnabled(true);
+        user.setUserEnabled(true);
         // save to db
         userService.save(user);
         // TODO: delete this user's token in db

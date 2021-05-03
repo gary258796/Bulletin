@@ -1,11 +1,11 @@
 package gary.springframework.bulletin.web.services.impl;
 
 import gary.springframework.bulletin.data.entity.User;
-import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.data.entity.token.VerificationToken;
 import gary.springframework.bulletin.web.repositories.VerificationTokenRepository;
 import gary.springframework.bulletin.web.services.VerificationTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +17,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     private final VerificationTokenRepository tokenRepository;
 
+    @Autowired
     public VerificationTokenServiceImpl(VerificationTokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
@@ -53,9 +54,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
 
     @Override
     public Set<VerificationToken> findAll() {
-        Set<VerificationToken> verificationTokens = new HashSet<>();
-        tokenRepository.findAll().forEach(verificationTokens::add);
-        return verificationTokens;
+        return new HashSet<>(tokenRepository.findAll());
     }
 
     @Override

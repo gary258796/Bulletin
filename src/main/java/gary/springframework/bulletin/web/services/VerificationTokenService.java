@@ -1,7 +1,7 @@
 package gary.springframework.bulletin.web.services;
 
 import gary.springframework.bulletin.data.entity.User;
-import gary.springframework.bulletin.data.entity.VerificationToken;
+import gary.springframework.bulletin.data.entity.token.VerificationToken;
 
 public interface VerificationTokenService extends CrudService<VerificationToken, Long> {
 

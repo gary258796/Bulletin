@@ -5,12 +5,12 @@ import gary.springframework.bulletin.data.model.dto.PasswordDto;
 import gary.springframework.bulletin.data.model.response.GenericResponse;
 import gary.springframework.bulletin.web.services.ResetPasswordTokenService;
 import gary.springframework.bulletin.web.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.Locale;
 
@@ -22,6 +22,7 @@ public class ResetPasswordController {
     private final UserService userService;
     private final ResetPasswordTokenService resetPasswordTokenService;
 
+    @Autowired
     public ResetPasswordController(PasswordEncoder passwordEncoder, MessageSource messageSource,
                                    UserService userService, ResetPasswordTokenService resetPasswordTokenService) {
         this.passwordEncoder = passwordEncoder;
@@ -43,7 +44,7 @@ public class ResetPasswordController {
 
         // sth went wrong
         if( result != null ){
-            String message = messageSource.getMessage("auth.message", null, locale) + ( result == null ? "" : result)  ;
+            String message = messageSource.getMessage("auth.message", null, locale) + result;
             model.addAttribute("message", message);
             return "login/login";
         }
@@ -67,7 +68,7 @@ public class ResetPasswordController {
         User user = userService.getUserByResetPasswordToken(passwordDto.getToken());
         if( user != null  ){
             // check if new Password different with original one
-            if( !passwordEncoder.matches(passwordDto.getPassword(), user.getPassword() ) ){
+            if( !passwordEncoder.matches(passwordDto.getPassword(), user.getUserPassword() ) ){
                 // change password
                 userService.changeUserPassword(user, passwordDto.getPassword());
                 return new GenericResponse("successful", messageSource.getMessage("message.resetPasswordSuc", null, locale));

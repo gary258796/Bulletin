@@ -23,7 +23,6 @@ target/
 .mvn
 mvnw
 mvnw.cmd
-/src/test
 /src/main/resources/application.properties
 /src/main/resources/templates/temp/**
 /src/main/java/gary/springframework/bulletin/bootstrap/UserBootstrap.java

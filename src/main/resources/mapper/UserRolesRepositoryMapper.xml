@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gary.springframework.bulletin.web.repositories.UserRolesRepository">
+    <resultMap type="gary.springframework.bulletin.data.entity.Role" id="Role">
+        <result column="ROLE_ID" property="roleID" javaType="Integer"/>
+        <result column="ROLE_NAME" property="roleName" javaType="String"/>
+    </resultMap>
+
+    <select id="getRolesByUserId" resultMap="Role">
+        select *
+          from ROLE
+         where ROLE_ID in (
+             select ROLE_ID
+               from USER_ROLES
+              where USER_ID = #{userId}
+        )
+    </select>
+
+    <insert id="storeUserRoles">
+        INSERT INTO USER_ROLES (USER_ID, ROLE_ID)
+        VALUES
+        <foreach collection="roles" item="role" separator=",">
+            (#{user.id}, #{role.roleID})
+        </foreach>
+    </insert>
+</mapper>
