@@ -18,19 +18,16 @@ let App = baseVue.extend({
                 commentObj: [{
                     commentId: 0,
                     commentName: "Ipple",
-                    colorNumber: 1,
                     time: "2020 08 11 - 15:12",
                     content: "Hi! I'm gary ."
                 }, {
                     commentId: 1,
                     commentName: "Youis",
-                    colorNumber: 2,
                     time: "2020 08 11 - 15:12",
                     content: "Hi! I'm Louis ."
                 }, {
                     commentId: 2,
                     commentName: "Zenny",
-                    colorNumber: 1,
                     time: "2020 08 11 - 15:12",
                     content: "Hi! I'm Jenny ."
                 }]
@@ -45,25 +42,6 @@ let App = baseVue.extend({
                 headingId: "headingTwo",
                 collapseId: "collapseTwo",
                 buttonId: "buttonTwo",
-                // commentObj: [{
-                //     commentId: 0,
-                //     commentName: "Gary",
-                //     colorNumber: 1,
-                //     time: "2020 08 11 - 15:12",
-                //     content: "Hi! I'm gary ."
-                // },{
-                //     commentId: 1,
-                //     commentName: "Louis",
-                //     colorNumber: 2,
-                //     time: "2020 08 11 - 15:12",
-                //     content: "Hi! I'm Louis ."
-                // },{
-                //     commentId: 2,
-                //     commentName: "Jenny",
-                //     colorNumber: 1,
-                //     time: "2020 08 11 - 15:12",
-                //     content: "Hi! I'm Jenny ."
-                // }]
             }]
         }
     },

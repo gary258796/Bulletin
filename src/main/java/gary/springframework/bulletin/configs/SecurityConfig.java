@@ -1,10 +1,13 @@
 package gary.springframework.bulletin.configs;
 
+import gary.springframework.bulletin.data.entity.User;
+import gary.springframework.bulletin.normalstuff.util.Authorization.UserUtil;
 import gary.springframework.bulletin.security.CustomAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.web.context.annotation.RequestScope;
 
 @Configuration
 @EnableWebSecurity
@@ -108,4 +112,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder(11);
     }
 
+
+    @Bean
+    @RequestScope // 啟動時沒有連線, 因此只有在需要用到此bean的時候才初始。
+    public User getLoginUser() {
+        User user = UserUtil.getUser();
+        if( user == null )
+            throw new AccessDeniedException("Non-Login");
+        return user;
+    }
 }
